@@ -18,14 +18,15 @@ public class OmaMoottori extends Moottori {
 		palvelupisteet = new Palvelupiste[7];
 
 		palvelupisteet[0] = new Palvelupiste(new Normal(10, 60), tapahtumalista, TapahtumanTyyppi.DEP1);
-		palvelupisteet[1] = new Palvelupiste(new Normal(60, 180), tapahtumalista, TapahtumanTyyppi.DEP2);
-		palvelupisteet[2] = new Palvelupiste(new Normal(1, 600), tapahtumalista, TapahtumanTyyppi.DEP3);
-		palvelupisteet[3] = new Palvelupiste(new Normal(60, 600), tapahtumalista, TapahtumanTyyppi.DEP4);
-		palvelupisteet[4] = new Palvelupiste(new Normal(180, 300), tapahtumalista, TapahtumanTyyppi.DEP5);
-		palvelupisteet[5] = new Palvelupiste(new Normal(10, 1800), tapahtumalista, TapahtumanTyyppi.DEP6);
-		palvelupisteet[6] = new Palvelupiste(new Normal(10, 3600), tapahtumalista, TapahtumanTyyppi.DEP7);
+		palvelupisteet[1] = new Palvelupiste(new Normal(30, 80), tapahtumalista, TapahtumanTyyppi.DEP2);
+		palvelupisteet[2] = new Palvelupiste(new Normal(60, 300), tapahtumalista, TapahtumanTyyppi.DEP3);
+		palvelupisteet[3] = new Palvelupiste(new Normal(180, 100), tapahtumalista, TapahtumanTyyppi.DEP4);
+		palvelupisteet[4] = new Palvelupiste(new Normal(10, 400), tapahtumalista, TapahtumanTyyppi.DEP5);
+		palvelupisteet[5] = new Palvelupiste(new Normal(10, 450), tapahtumalista, TapahtumanTyyppi.DEP6);
+		palvelupisteet[6] = new Palvelupiste(new Normal(60, 80), tapahtumalista, TapahtumanTyyppi.DEP7);
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARR1);
+		
 
 	}
 
@@ -42,7 +43,7 @@ public class OmaMoottori extends Moottori {
 
 		case ARR1:
 			palvelupisteet[0].lisaaJonoon(new Asiakas());
-			saapumisprosessi.generoiSeuraava();
+				saapumisprosessi.generoiSeuraava();
 			break;
 		//portsari
 		case DEP1:
@@ -59,60 +60,60 @@ public class OmaMoottori extends Moottori {
 		//baaritiski
 		case DEP3:
 			a = palvelupisteet[2].otaJonosta();
-			int valinta = random.nextInt(4 - 1) + 1;
+			int valinta = random.nextInt(10 - 1) + 1;
 			
-			if(valinta == 1) {
+			if(valinta == 3) {
 				palvelupisteet[3].lisaaJonoon(a);
-			} else if(valinta == 2) {
-				palvelupisteet[4].lisaaJonoon(a);
-			} else if(valinta == 3) {
-				palvelupisteet[5].lisaaJonoon(a);
 			} else if(valinta == 4) {
+				palvelupisteet[4].lisaaJonoon(a);
+			} else if(valinta == 5) {
+				palvelupisteet[5].lisaaJonoon(a);
+			} else {
 				palvelupisteet[6].lisaaJonoon(a);
 			}
 			break;
 		//tanssilattia
 		case DEP4:
 			a = palvelupisteet[3].otaJonosta();
-			valinta = random.nextInt(4 - 1) + 1;
+			valinta = random.nextInt(10 - 1) + 1;
 			
-			if(valinta == 1) {
+			if(valinta == 2) {
 				palvelupisteet[2].lisaaJonoon(a);
-			} else if(valinta == 2) {
-				palvelupisteet[4].lisaaJonoon(a);
-			} else if(valinta == 3) {
-				palvelupisteet[5].lisaaJonoon(a);
 			} else if(valinta == 4) {
+				palvelupisteet[4].lisaaJonoon(a);
+			} else if(valinta == 5) {
+				palvelupisteet[5].lisaaJonoon(a);
+			} else {
 				palvelupisteet[6].lisaaJonoon(a);
 			}
 			break;
 		//karaoke
 		case DEP5:
 			a = palvelupisteet[4].otaJonosta();
-			valinta = random.nextInt(4 - 1) + 1;
+			valinta = random.nextInt(10 - 1) + 1;
 			
-			if(valinta == 1) {
+			if(valinta == 2) {
 				palvelupisteet[2].lisaaJonoon(a);
-			} else if(valinta == 2) {
-				palvelupisteet[3].lisaaJonoon(a);
 			} else if(valinta == 3) {
+				palvelupisteet[3].lisaaJonoon(a);
+			} else if(valinta == 5) {
 				palvelupisteet[5].lisaaJonoon(a);
-			} else if(valinta == 4) {
+			} else {
 				palvelupisteet[6].lisaaJonoon(a);
 			}
 			break;
 		//istuminen
 		case DEP6:
 			a = palvelupisteet[5].otaJonosta();
-			valinta = random.nextInt(4 - 1) + 1;
+			valinta = random.nextInt(10 - 1) + 1;
 			
-			if(valinta == 1) {
+			if(valinta == 2) {
 				palvelupisteet[2].lisaaJonoon(a);
-			} else if(valinta == 2) {
-				palvelupisteet[3].lisaaJonoon(a);
 			} else if(valinta == 3) {
-				palvelupisteet[4].lisaaJonoon(a);
+				palvelupisteet[3].lisaaJonoon(a);
 			} else if(valinta == 4) {
+				palvelupisteet[4].lisaaJonoon(a);
+			} else {
 				palvelupisteet[6].lisaaJonoon(a);
 			}
 			break;

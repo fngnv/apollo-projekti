@@ -10,7 +10,6 @@ public enum TapahtumanTyyppi {
 	DEP4,
 	DEP5,
 	DEP6,
-	DEP7,
-	DEP8
+	DEP7
 
 }
