@@ -1,0 +1,16 @@
+package testi;
+import simu.framework.*;
+import simu.framework.Trace.Level;
+import simu.model.OmaMoottori;
+import simu.model.TapahtumanTyyppi;
+
+public class Simulaattori { //Tekstipohjainen
+
+	public static void main(String[] args) {
+		
+		Trace.setTraceLevel(Level.INFO);
+		Moottori m = new OmaMoottori();
+		m.setSimulointiaika = a.setPoistumisaika(Kello.getInstance().getAika());
+		    m.aja();
+	}
+}

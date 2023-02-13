@@ -1,0 +1,32 @@
+package simu.model;
+
+import java.util.ArrayList;
+
+public class Suureet {
+	public ArrayList<Double> palveluaika;
+	//private double keskiPalveluaika;
+	
+	public Suureet() {
+		palveluaika = new ArrayList<Double>();
+	}
+	
+	public  void setpalveluaika(double palvelunKesto) {
+	    palveluaika.add(palvelunKesto);
+	}
+	
+	public ArrayList<Double> getPalveluaika() {
+	    return palveluaika;
+	}
+
+	
+	//public static double keskimPalveluaika() {
+        //double total = 0;
+        //for (double time : palveluaika) {
+          //  total += time;
+        //}
+        //return total / palveluaika.size();
+		//keskiPalveluaika = 
+		
+    //}
+
+}
