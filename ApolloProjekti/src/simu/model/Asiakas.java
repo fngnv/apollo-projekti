@@ -9,9 +9,13 @@ import simu.framework.Trace;
 public class Asiakas {
 	private double saapumisaika;
 	private double poistumisaika;
+	//private double palvelupSaapumisaika;
+	//private double palvelupPoistumisaika;
 	private int id;
 	private static int i = 1;
 	private static long sum = 0;
+	private static double keskiarvo = 0;
+	private static int asiakasMaara;
 	
 	public Asiakas(){
 	    id = i++;
@@ -32,12 +36,37 @@ public class Asiakas {
 		return saapumisaika;
 	}
 
+	
 	public void setSaapumisaika(double saapumisaika) {
 		this.saapumisaika = saapumisaika;
 	}
-	
+	/**
+	public double getPalvelupisteenPoistumisaika() {
+		return palvelupPoistumisaika;
+	}
+
+	public void setPalvelupisteenPoistumisaika(double palvelupPoistumisaika) {
+		this.palvelupPoistumisaika = palvelupPoistumisaika;
+	}
+
+	public double getPalvelupisteenSaapumisaika() {
+		return palvelupSaapumisaika;
+	}
+
+	public void setPalvelupisteenSaapumisaika(double palvelupSaapumisaika) {
+		this.palvelupSaapumisaika = palvelupSaapumisaika;
+	}
+	*/
 	public int getId() {
 		return id;
+	}
+	
+	public static int getAsiakasLkm() {
+		return asiakasMaara;
+	}
+	
+	public static double getKeskiarvo() {
+		return keskiarvo;
 	}
 	
 	public void raportti(){
@@ -46,8 +75,11 @@ public class Asiakas {
 		Trace.out(Trace.Level.INFO,"Asiakas "+id+ " poistui: " +poistumisaika);
 		Trace.out(Trace.Level.INFO,"Asiakas "+id+ " viipyi: " +(poistumisaika-saapumisaika));
 		sum += (poistumisaika-saapumisaika);
-		double keskiarvo = sum/id;
+		asiakasMaara++;
+		keskiarvo = sum/asiakasMaara;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti "+ keskiarvo);
+		System.out.println("Poistuneita asiakkaita "+ asiakasMaara);
+		
 	}
 
 }

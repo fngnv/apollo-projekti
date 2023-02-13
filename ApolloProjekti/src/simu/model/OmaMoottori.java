@@ -12,6 +12,7 @@ public class OmaMoottori extends Moottori {
 
 	private Saapumisprosessi saapumisprosessi;
 	private Random random = new Random();
+	//Suureet suureet = new Suureet();
 
 	public OmaMoottori() {
 
@@ -53,9 +54,12 @@ public class OmaMoottori extends Moottori {
 		//narikka 1
 		case DEP2:
 			a = palvelupisteet[1].otaJonosta();
-			int seuraava = random.nextInt(5 - 2) + 2;
-			
+			//a.setPalvelupisteenSaapumisaika(Kello.getInstance().getAika());
+			int seuraava = random.nextInt(5 - 2) + 2;	
 			palvelupisteet[seuraava].lisaaJonoon(a);
+			//a.setPalvelupisteenPoistumisaika(Kello.getInstance().getAika());
+			//double palvelunKesto = a.getPalvelupisteenPoistumisaika() - a.getPalvelupisteenSaapumisaika();
+			//suureet.setpalveluaika(palvelunKesto);
 			break;
 		//baaritiski
 		case DEP3:
@@ -129,7 +133,31 @@ public class OmaMoottori extends Moottori {
 	@Override
 	protected void tulokset() {
 		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-		System.out.println("Tulokset ... puuttuvat vielä");
+		System.out.println("Palvellut asiakkaat: " + Asiakas.getAsiakasLkm());
+		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo: " + Asiakas.getKeskiarvo());
+		/**
+		System.out.println("Palvelupisteen 1 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 2 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 3 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 4 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 5 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 6 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 7 keskimääräinen palveluaika: ");
+		System.out.println("Palvelupisteen 1 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 2 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 3 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 4 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 5 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 6 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 7 keskimääräinen läpimenoaika: ");
+		System.out.println("Palvelupisteen 1 keskimääräinen jononpituus: ");
+		System.out.println("Palvelupisteen 2 keskimääräinen jononpituus: ");
+		System.out.println("Palvelupisteen 3 keskimääräinen jononpituus: ");
+		System.out.println("Palvelupisteen 4 keskimääräinen jononpituus: ");
+		System.out.println("Palvelupisteen 5 keskimääräinen jononpituus: ");
+		System.out.println("Palvelupisteen 6 keskimääräinen jononpituus: ");
+		System.out.println("Palvelupisteen 7 keskimääräinen jononpituus: ");
+		*/
 	}
 
 }
