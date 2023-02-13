@@ -60,4 +60,10 @@ public class Palvelupiste {
 		return jono.size() != 0;
 	}
 
+
+	public int getAsiakkaidenLkm() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

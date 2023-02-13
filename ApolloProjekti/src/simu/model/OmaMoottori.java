@@ -129,7 +129,7 @@ public class OmaMoottori extends Moottori {
 			break;
 		}
 	}
-
+	
 	@Override
 	protected void tulokset() {
 		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
