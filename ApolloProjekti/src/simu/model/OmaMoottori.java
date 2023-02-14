@@ -1,6 +1,9 @@
 package simu.model;
 
-import java.util.*;
+import java.util.Random;
+
+
+import controller.IKontrolleri;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
 import simu.framework.Kello;
@@ -8,14 +11,29 @@ import simu.framework.Moottori;
 import simu.framework.Saapumisprosessi;
 import simu.framework.Tapahtuma;
 
-public class OmaMoottori extends Moottori {
 
+public class OmaMoottori extends Moottori{
+	
 	private Saapumisprosessi saapumisprosessi;
 	private Random random = new Random();
 	//Suureet suureet = new Suureet();
+	
+	
+	public OmaMoottori(IKontrolleri kontrolleri){ // UUSI
 
-	public OmaMoottori() {
-
+		super(kontrolleri); //UUSI
+		
+		/*
+		 * palvelupisteet = new Palvelupiste[3];
+		 * 
+		 * palvelupisteet[0]=new Palvelupiste(new Normal(10,6), tapahtumalista,
+		 * TapahtumanTyyppi.DEP1); palvelupisteet[1]=new Palvelupiste(new Normal(10,10),
+		 * tapahtumalista, TapahtumanTyyppi.DEP2); palvelupisteet[2]=new
+		 * Palvelupiste(new Normal(5,3), tapahtumalista, TapahtumanTyyppi.DEP3);
+		 * 
+		 * saapumisprosessi = new Saapumisprosessi(new Negexp(15,5), tapahtumalista,
+		 * TapahtumanTyyppi.ARR1);
+		 */
 		palvelupisteet = new Palvelupiste[7];
 
 		palvelupisteet[0] = new Palvelupiste(new Normal(10, 60), tapahtumalista, TapahtumanTyyppi.DEP1);
@@ -26,25 +44,26 @@ public class OmaMoottori extends Moottori {
 		palvelupisteet[5] = new Palvelupiste(new Normal(10, 450), tapahtumalista, TapahtumanTyyppi.DEP6);
 		palvelupisteet[6] = new Palvelupiste(new Normal(60, 80), tapahtumalista, TapahtumanTyyppi.DEP7);
 
-		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARR1);
-		
-
+		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARR1, kontrolleri);
 	}
 
+	
 	@Override
 	protected void alustukset() {
 		saapumisprosessi.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään
 	}
-
+	
+	
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t) { // B-vaiheen tapahtumat
+	protected void suoritaTapahtuma(Tapahtuma t){  // B-vaiheen tapahtumat
 
 		Asiakas a;
-		switch (t.getTyyppi()) {
-
+		switch (t.getTyyppi()){
+			
 		case ARR1:
 			palvelupisteet[0].lisaaJonoon(new Asiakas());
 				saapumisprosessi.generoiSeuraava();
+				kontrolleri.visualisoiAsiakas();
 			break;
 		//portsari
 		case DEP1:
@@ -57,6 +76,7 @@ public class OmaMoottori extends Moottori {
 			//a.setPalvelupisteenSaapumisaika(Kello.getInstance().getAika());
 			int seuraava = random.nextInt(5 - 2) + 2;	
 			palvelupisteet[seuraava].lisaaJonoon(a);
+			//kontrolleri.poistaAsiakkaanVisualisointi();
 			//a.setPalvelupisteenPoistumisaika(Kello.getInstance().getAika());
 			//double palvelunKesto = a.getPalvelupisteenPoistumisaika() - a.getPalvelupisteenSaapumisaika();
 			//suureet.setpalveluaika(palvelunKesto);
@@ -127,7 +147,7 @@ public class OmaMoottori extends Moottori {
 			a.setPoistumisaika(Kello.getInstance().getAika());
 			a.raportti();
 			break;
-		}
+		}	
 	}
 	
 	@Override
@@ -158,6 +178,13 @@ public class OmaMoottori extends Moottori {
 		System.out.println("Palvelupisteen 6 keskimääräinen jononpituus: ");
 		System.out.println("Palvelupisteen 7 keskimääräinen jononpituus: ");
 		*/
+		// VANHAA tekstipohjaista
+		// System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
+		// System.out.println("Tulokset ... puuttuvat vielä");
+		
+		// UUTTA graafista
+		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 	}
 
+	
 }
