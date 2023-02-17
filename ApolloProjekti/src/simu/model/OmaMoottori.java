@@ -62,20 +62,25 @@ public class OmaMoottori extends Moottori{
 			
 		case ARR1:
 			palvelupisteet[0].lisaaJonoon(new Asiakas());
-				saapumisprosessi.generoiSeuraava();
-				kontrolleri.visualisoiAsiakas();
+			kontrolleri.visualisoiAsiakas(0);
+			saapumisprosessi.generoiSeuraava();
+			//kontrolleri.visualisoiAsiakas();
 			break;
 		//portsari
 		case DEP1:
 			a = palvelupisteet[0].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(0);
 			palvelupisteet[1].lisaaJonoon(a);
+			kontrolleri.visualisoiAsiakas(1);
 			break;
 		//narikka 1
 		case DEP2:
 			a = palvelupisteet[1].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(1);
 			//a.setPalvelupisteenSaapumisaika(Kello.getInstance().getAika());
 			int seuraava = random.nextInt(5 - 2) + 2;	
 			palvelupisteet[seuraava].lisaaJonoon(a);
+			kontrolleri.visualisoiAsiakas(seuraava);
 			//kontrolleri.poistaAsiakkaanVisualisointi();
 			//a.setPalvelupisteenPoistumisaika(Kello.getInstance().getAika());
 			//double palvelunKesto = a.getPalvelupisteenPoistumisaika() - a.getPalvelupisteenSaapumisaika();
@@ -84,66 +89,87 @@ public class OmaMoottori extends Moottori{
 		//baaritiski
 		case DEP3:
 			a = palvelupisteet[2].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(2);
 			int valinta = random.nextInt(10 - 1) + 1;
 			
 			if(valinta == 3) {
 				palvelupisteet[3].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(3);
 			} else if(valinta == 4) {
 				palvelupisteet[4].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(4);
 			} else if(valinta == 5) {
 				palvelupisteet[5].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(5);
 			} else {
 				palvelupisteet[6].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(6);
 			}
 			break;
 		//tanssilattia
 		case DEP4:
 			a = palvelupisteet[3].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(3);
 			valinta = random.nextInt(10 - 1) + 1;
 			
 			if(valinta == 2) {
 				palvelupisteet[2].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(2);
 			} else if(valinta == 4) {
 				palvelupisteet[4].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(4);
 			} else if(valinta == 5) {
 				palvelupisteet[5].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(5);
 			} else {
 				palvelupisteet[6].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(6);
 			}
 			break;
 		//karaoke
 		case DEP5:
 			a = palvelupisteet[4].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(4);
 			valinta = random.nextInt(10 - 1) + 1;
 			
 			if(valinta == 2) {
 				palvelupisteet[2].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(2);
 			} else if(valinta == 3) {
 				palvelupisteet[3].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(3);
 			} else if(valinta == 5) {
 				palvelupisteet[5].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(5);
 			} else {
 				palvelupisteet[6].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(6);
 			}
 			break;
 		//istuminen
 		case DEP6:
 			a = palvelupisteet[5].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(5);
 			valinta = random.nextInt(10 - 1) + 1;
 			
 			if(valinta == 2) {
 				palvelupisteet[2].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(2);
 			} else if(valinta == 3) {
 				palvelupisteet[3].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(3);
 			} else if(valinta == 4) {
 				palvelupisteet[4].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(4);
 			} else {
 				palvelupisteet[6].lisaaJonoon(a);
+				kontrolleri.visualisoiAsiakas(6);
 			}
 			break;
 		//poistuminen
 		case DEP7:
 			a = palvelupisteet[6].otaJonosta();
+			kontrolleri.poistaAsiakkaanVisualisointi(6);
 			a.setPoistumisaika(Kello.getInstance().getAika());
 			a.raportti();
 			break;

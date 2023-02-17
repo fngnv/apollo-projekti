@@ -10,6 +10,6 @@ public interface ISimulaattorinUI {
 	public void setLoppuaika(double aika);
 	
 	// Kontrolleri tarvitsee  
-	public IVisualisointi getVisualisointi();
+	public IVisualisointi[] getVisualisoinnit();
 
 }

@@ -45,6 +45,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private IVisualisointi karaoke;
 	private IVisualisointi istuminen;
 	private IVisualisointi narikka2;
+	
+	private IVisualisointi[] visualisoinnit;
 
 
 	@Override
@@ -143,6 +145,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        		(Canvas)karaoke, (Canvas)istuminen, (Canvas)narikka2);
 	        hBox.getChildren().addAll(grid, vbox);
 	        
+	        visualisoinnit = new IVisualisointi[] {
+	        		portsari, narikka1, baaritiski, tanssilattia, karaoke, istuminen, narikka2
+	        };
+	        
 	        Scene scene = new Scene(hBox);
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
@@ -175,8 +181,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 
 
 	@Override
-	public IVisualisointi getVisualisointi() {
-		 return portsari;
+	public IVisualisointi[] getVisualisoinnit() {
+		 return visualisoinnit;
 	}
 	
 	

@@ -22,7 +22,10 @@ public class Kontrolleri implements IKontrolleri{   // UUSI
 		moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
 		moottori.setSimulointiaika(ui.getAika());
 		moottori.setViive(ui.getViive());
-		ui.getVisualisointi().tyhjennaNaytto();
+		for(int i = 0; i < ui.getVisualisoinnit().length; i++) {
+			ui.getVisualisoinnit()[i].tyhjennaNaytto();
+		}
+		//ui.getVisualisoinnit().tyhjennaNaytto();
 		((Thread)moottori).start();
 	}
 	
@@ -48,19 +51,19 @@ public class Kontrolleri implements IKontrolleri{   // UUSI
 
 	
 	@Override
-	public void visualisoiAsiakas() {
+	public void visualisoiAsiakas(int jononNro) {
 		Platform.runLater(new Runnable(){
 			public void run(){
-				ui.getVisualisointi().uusiAsiakas();
+				ui.getVisualisoinnit()[jononNro].uusiAsiakas();
 			}
 		});
 	}
 
 	@Override
-	public void poistaAsiakkaanVisualisointi() {
+	public void poistaAsiakkaanVisualisointi(int jononNro) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				ui.getVisualisointi().poistaAsiakas();
+				ui.getVisualisoinnit()[jononNro].poistaAsiakas();
 			}
 		});
 	}
