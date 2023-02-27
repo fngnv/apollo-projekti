@@ -1,5 +1,6 @@
 package simu.model;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 
@@ -16,33 +17,23 @@ public class OmaMoottori extends Moottori{
 	
 	private Saapumisprosessi saapumisprosessi;
 	private Random random = new Random();
-	//Suureet suureet = new Suureet();
+	
+	//Tulosten laskemiseen tarvittavat muuttujat
 	
 	
 	public OmaMoottori(IKontrolleri kontrolleri){ // UUSI
 
 		super(kontrolleri); //UUSI
 		
-		/*
-		 * palvelupisteet = new Palvelupiste[3];
-		 * 
-		 * palvelupisteet[0]=new Palvelupiste(new Normal(10,6), tapahtumalista,
-		 * TapahtumanTyyppi.DEP1); palvelupisteet[1]=new Palvelupiste(new Normal(10,10),
-		 * tapahtumalista, TapahtumanTyyppi.DEP2); palvelupisteet[2]=new
-		 * Palvelupiste(new Normal(5,3), tapahtumalista, TapahtumanTyyppi.DEP3);
-		 * 
-		 * saapumisprosessi = new Saapumisprosessi(new Negexp(15,5), tapahtumalista,
-		 * TapahtumanTyyppi.ARR1);
-		 */
 		palvelupisteet = new Palvelupiste[7];
 
-		palvelupisteet[0] = new Palvelupiste(new Normal(10, 60), tapahtumalista, TapahtumanTyyppi.DEP1);
-		palvelupisteet[1] = new Palvelupiste(new Normal(30, 80), tapahtumalista, TapahtumanTyyppi.DEP2);
-		palvelupisteet[2] = new Palvelupiste(new Normal(60, 300), tapahtumalista, TapahtumanTyyppi.DEP3);
-		palvelupisteet[3] = new Palvelupiste(new Normal(180, 100), tapahtumalista, TapahtumanTyyppi.DEP4);
-		palvelupisteet[4] = new Palvelupiste(new Normal(10, 400), tapahtumalista, TapahtumanTyyppi.DEP5);
-		palvelupisteet[5] = new Palvelupiste(new Normal(10, 450), tapahtumalista, TapahtumanTyyppi.DEP6);
-		palvelupisteet[6] = new Palvelupiste(new Normal(60, 80), tapahtumalista, TapahtumanTyyppi.DEP7);
+		palvelupisteet[0] = new Palvelupiste(new Normal(10, 60), tapahtumalista, TapahtumanTyyppi.DEP1); //portsari
+		palvelupisteet[1] = new Palvelupiste(new Normal(60, 180), tapahtumalista, TapahtumanTyyppi.DEP2); //saapumisnarikka
+		palvelupisteet[2] = new Palvelupiste(new Normal(60, 600), tapahtumalista, TapahtumanTyyppi.DEP3); //baaritiski
+		palvelupisteet[3] = new Palvelupiste(new Normal(10, 1800), tapahtumalista, TapahtumanTyyppi.DEP4); //tanssilattia		
+		palvelupisteet[4] = new Palvelupiste(new Normal(180, 300), tapahtumalista, TapahtumanTyyppi.DEP5); //karaoke
+		palvelupisteet[5] = new Palvelupiste(new Normal(10, 3600), tapahtumalista, TapahtumanTyyppi.DEP6); //istuminen tai vessa
+		palvelupisteet[6] = new Palvelupiste(new Normal(60, 300), tapahtumalista, TapahtumanTyyppi.DEP7); //poistumisnarikka
 
 		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARR1, kontrolleri);
 	}
@@ -178,38 +169,45 @@ public class OmaMoottori extends Moottori{
 	
 	@Override
 	protected void tulokset() {
-		System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-		System.out.println("Palvellut asiakkaat: " + Asiakas.getAsiakasLkm());
+		//Muuttujat joita tarvitaan suureiden laskemiseen
+		double aukioloaika = Kello.getInstance().getAika();
+		int pAsiakkaat = Asiakas.getAsiakasLkm();
+		
+		System.out.println("Simulointi päättyi kello " + aukioloaika);
+		System.out.println("Palvellut asiakkaat: " + pAsiakkaat);
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo: " + Asiakas.getKeskiarvo());
-		/**
-		System.out.println("Palvelupisteen 1 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 2 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 3 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 4 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 5 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 6 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 7 keskimääräinen palveluaika: ");
-		System.out.println("Palvelupisteen 1 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 2 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 3 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 4 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 5 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 6 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 7 keskimääräinen läpimenoaika: ");
-		System.out.println("Palvelupisteen 1 keskimääräinen jononpituus: ");
-		System.out.println("Palvelupisteen 2 keskimääräinen jononpituus: ");
-		System.out.println("Palvelupisteen 3 keskimääräinen jononpituus: ");
-		System.out.println("Palvelupisteen 4 keskimääräinen jononpituus: ");
-		System.out.println("Palvelupisteen 5 keskimääräinen jononpituus: ");
-		System.out.println("Palvelupisteen 6 keskimääräinen jononpituus: ");
-		System.out.println("Palvelupisteen 7 keskimääräinen jononpituus: ");
-		*/
-		// VANHAA tekstipohjaista
-		// System.out.println("Simulointi päättyi kello " + Kello.getInstance().getAika());
-		// System.out.println("Tulokset ... puuttuvat vielä");
+		
+		//Suoritustehon laskeminen
+		double throughput = pAsiakkaat / aukioloaika;
+		
+		//Taulukko, johon tallennetaan kaikkien palvelupisteiden service time -tulokset
+		double[] serviceTimeTulokset = new double[palvelupisteet.length];
+		
+		//Taulukko, johon tallennetaan kaikkien palvelupisteiden response time -tulokset
+		double[] responseTimeTulokset = new double[palvelupisteet.length];
+		
+		//Taulukko, johon tallennetaan palvelupisteiden keskimääräiset jononpituudet
+		double[] keskJononpituusTulokset = new double[palvelupisteet.length];
+		
+		for(int i = 0; i < palvelupisteet.length; i++) {
+			serviceTimeTulokset[i] = palvelupisteet[i].getServiceTime();
+			responseTimeTulokset[i] = palvelupisteet[i].getResponseTime();
+			keskJononpituusTulokset[i] = palvelupisteet[i].getWaitingTime() / aukioloaika;
+		}
 		
 		// UUTTA graafista
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
+		//Seuraava metodi lähettää simulaation tulokset kontrollerille
+		kontrolleri.naytaTulokset(throughput, serviceTimeTulokset, responseTimeTulokset, keskJononpituusTulokset);
+		
+		//testausta
+		System.out.println("Throughput:" + throughput);
+		
+		for(int i = 0; i < palvelupisteet.length; i++) {
+			System.out.println("Palvelupisteen " + i + " service time " + serviceTimeTulokset[i]);
+			System.out.println("Palvelupisteen " + i + " response time " + responseTimeTulokset[i]);
+			System.out.println("Palvelupisteen " + i + " keskimääräinen jononpituus " + keskJononpituusTulokset[i]);
+		}
 	}
 
 	

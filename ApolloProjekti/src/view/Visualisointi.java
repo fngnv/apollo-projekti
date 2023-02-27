@@ -20,7 +20,7 @@ public class Visualisointi extends Canvas implements IVisualisointi{
 	
 
 	public void tyhjennaNaytto() {
-		gc.setFill(Color.BLACK);
+		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, this.getWidth(), this.getHeight());
 	}
 	
@@ -35,7 +35,7 @@ public class Visualisointi extends Canvas implements IVisualisointi{
 	
 	@Override
 	public void poistaAsiakas() {
-		gc.setFill(Color.BLACK);
+		gc.setFill(Color.WHITE);
 		gc.fillOval(i,j,10,10);
 		
 		i = (i - 10) % this.getWidth();

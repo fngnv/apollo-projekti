@@ -17,6 +17,13 @@ public class Asiakas {
 	private static double keskiarvo = 0;
 	private static int asiakasMaara;
 	
+	//Tarvitaan suureiden laskemiseen
+	//Jonottamisen lopetus -muuttujaa ei tarvita, koska se on sama kuin palvelun lopetus
+	private double jonottamisenAloitus; 
+	private double palvelunAloitus;
+	private double palvelunLopetus;
+	
+	
 	public Asiakas(){
 	    id = i++;
 	    
@@ -39,6 +46,28 @@ public class Asiakas {
 	
 	public void setSaapumisaika(double saapumisaika) {
 		this.saapumisaika = saapumisaika;
+	}
+	
+	public void setPalvelunAloitus(double aloitusaika) {
+		palvelunAloitus = aloitusaika;
+	}
+	
+	public void setPalvelunLopetus(double lopetusaika) {
+		palvelunLopetus = lopetusaika;
+	}
+	
+	public void setJonottamisenAloitus(double aloitusaika) {
+		jonottamisenAloitus = aloitusaika;
+	}
+	
+	//Palvelupisteen jonossa vietetyn ajan laskeminen. Tähän kuuluu myös palvelun saaminen
+	public double jonossaVietettyAika() {
+		return palvelunLopetus - jonottamisenAloitus;
+	}
+	
+	//Palvelussa vietetyn ajan laskeminen
+	public double palvelupisteessaVietettyAika() {
+		return palvelunLopetus - palvelunAloitus;
 	}
 	/**
 	public double getPalvelupisteenPoistumisaika() {

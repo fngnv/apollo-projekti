@@ -13,5 +13,6 @@ public interface IKontrolleri {
 		public void naytaLoppuaika(double aika);
 		public void visualisoiAsiakas(int jononNro);
 		public void poistaAsiakkaanVisualisointi(int jononNro);
+		public void naytaTulokset(double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus);
 
 }

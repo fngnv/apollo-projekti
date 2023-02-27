@@ -3,20 +3,27 @@ package view;
 
 import java.text.DecimalFormat;
 import controller.*;
+//import simu.model.Tulokset;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import simu.framework.Kello;
 import simu.framework.Trace;
 import simu.framework.Trace.Level;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
 
@@ -27,16 +34,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private IKontrolleri kontrolleri;
 
 	// Käyttöliittymäkomponentit:
-	private TextField aika;
+	private Label aika;
 	private TextField viive;
 	private Label tulos;
 	private Label aikaLabel;
 	private Label viiveLabel;
 	private Label tulosLabel;
+	private GridPane tulokset;
+	private TableView<Tulokset> tulostaulukko;
+	
+	private final int SIMULOINTIAIKA = 25200; //25200s = 7h, Apollon todellinen aukioloaika
 	
 	private Button kaynnistaButton;
-	private Button hidastaButton;
-	private Button nopeutaButton;
 
 	private IVisualisointi portsari;
 	private IVisualisointi narikka1;
@@ -83,17 +92,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	            }
 	        });
 
-			hidastaButton = new Button();
-			hidastaButton.setText("Hidasta");
-			hidastaButton.setOnAction(e -> kontrolleri.hidasta());
-
-			nopeutaButton = new Button();
-			nopeutaButton.setText("Nopeuta");
-			nopeutaButton.setOnAction(e -> kontrolleri.nopeuta());
-
 			aikaLabel = new Label("Simulointiaika:");
 			aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-	        aika = new TextField("Syötä aika");
+	        //aika = new TextField("Syötä aika");
+			aika = new Label(SIMULOINTIAIKA + " sekuntia \n(" + SIMULOINTIAIKA / 3600 + " tuntia)");
 	        aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        aika.setPrefWidth(150);
 
@@ -108,14 +110,25 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        tulos = new Label();
 	        tulos.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        tulos.setPrefWidth(150);
-
+	        
+	        tulostaulukko = new TableView<Tulokset>();
+	        tulostaulukko.setMinWidth(430);
+	        tulostaulukko.setMaxHeight(200);
+	        tulostaulukko.setVisible(false);
+	        
+	        tulokset = new GridPane();
+	        tulokset.setPadding(new Insets(15, 12, 15, 12));
+	        tulokset.setAlignment(Pos.CENTER);
+	        tulokset.setVgap(10);
+	        tulokset.setHgap(5);
+	        
 	        HBox hBox = new HBox();
 	        hBox.setPadding(new Insets(15, 12, 15, 12)); // marginaalit ylä, oikea, ala, vasen
 	        hBox.setSpacing(10);   // noodien välimatka 10 pikseliä
 	        
-	        VBox vbox = new VBox();
-	        vbox.setPadding(new Insets(15, 12, 15, 12));
-	        vbox.setSpacing(10);
+	        VBox oikeapuolinenBox = new VBox();
+	        oikeapuolinenBox.setPadding(new Insets(15, 12, 15, 12));
+	        oikeapuolinenBox.setSpacing(10);
 	        
 	        GridPane grid = new GridPane();
 	        grid.setAlignment(Pos.CENTER);
@@ -129,8 +142,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        grid.add(tulosLabel, 0, 2);      // sarake, rivi
 	        grid.add(tulos, 1, 2);           // sarake, rivi
 	        grid.add(kaynnistaButton,0, 3);  // sarake, rivi
-	        grid.add(nopeutaButton, 0, 4);   // sarake, rivi
-	        grid.add(hidastaButton, 1, 4);   // sarake, rivi
 	        
 	        portsari = new Visualisointi(400,40);
 	        narikka1 = new Visualisointi(400, 40);
@@ -139,11 +150,35 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        karaoke = new Visualisointi(400, 40);
 	        istuminen = new Visualisointi(400, 40);
 	        narikka2 = new Visualisointi(400, 40);
+	        
+	        Label pLabel = new Label("Portsari");
+	        Label n1Label = new Label("Saapumisnarikka");
+	        Label bLabel = new Label("Baaritiski");
+	        Label tLabel = new Label("Tanssilattia");
+	        Label kLabel = new Label("Karaoke");
+	        Label iLabel = new Label("Istuminen (tai wc)");
+	        Label n2Label = new Label("Poistumisnarikka");
+	        
+	        pLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        n1Label.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        bLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        tLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        kLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        iLabel.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        n2Label.setFont(Font.font("Roboto", FontWeight.NORMAL, 20));
+	        
+	        VBox vasenpuolinenBox = new VBox();
+	        vasenpuolinenBox.setPadding(new Insets(15, 12, 15, 12));
+	        vasenpuolinenBox.setSpacing(10);
+	        
 
 	        // Täytetään boxit:
-	        vbox.getChildren().addAll((Canvas)portsari, (Canvas)narikka1, (Canvas)baaritiski, (Canvas)tanssilattia,
-	        		(Canvas)karaoke, (Canvas)istuminen, (Canvas)narikka2);
-	        hBox.getChildren().addAll(grid, vbox);
+	        oikeapuolinenBox.getChildren().addAll(pLabel, (Canvas)portsari, n1Label, (Canvas)narikka1, bLabel, (Canvas)baaritiski, tLabel, (Canvas)tanssilattia,
+	        		kLabel, (Canvas)karaoke, iLabel, (Canvas)istuminen, n2Label, (Canvas)narikka2);
+	        oikeapuolinenBox.setBorder(new Border(new BorderStroke(Color.ORANGE, 
+	                BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+	        vasenpuolinenBox.getChildren().addAll(grid, tulokset, tulostaulukko);
+	        hBox.getChildren().addAll(vasenpuolinenBox, oikeapuolinenBox);
 	        
 	        visualisoinnit = new IVisualisointi[] {
 	        		portsari, narikka1, baaritiski, tanssilattia, karaoke, istuminen, narikka2
@@ -165,7 +200,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 
 	@Override
 	public double getAika(){
-		return Double.parseDouble(aika.getText());
+		return SIMULOINTIAIKA;
 	}
 
 	@Override
@@ -179,6 +214,67 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		 this.tulos.setText(formatter.format(aika));
 	}
 
+	//Metodi saa simuloinnin tulokset ja asettaa ne käyttöliittymään: osan grid panen sisään ja 
+	//palvelupistekohtaiset tulokset taulukkoon
+	@Override
+	public void setTulokset(double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) {
+		DecimalFormat f = new DecimalFormat("###.##");
+		
+		String[] palvelupisteet = new String[] {
+				"Portsari", "Narikka1", "Baaritiski", "Tanssilattia", "Karaoke", "Istuminen", "Narikka2"
+		};
+		
+		ObservableList<Tulokset> data = FXCollections.observableArrayList();
+		
+		for(int i = 0; i < palvelupisteet.length; i++) {
+			data.add(new Tulokset(palvelupisteet[i], f.format(serviceTime[i]), f.format(responseTime[i]), f.format(jononpituus[i])));
+		}
+		
+		for(Tulokset tulos : data) {
+			System.out.println(tulos);
+		}
+		
+		Label tuloksetLabel = new Label("Tulokset");
+		tuloksetLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
+		Label throughputLabel = new Label("Apollon kokonaissuoritusteho: ");
+		throughputLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 20));
+		Label sTimeLabel = new Label("K. palveluaika");
+		sTimeLabel.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
+		Label rTimeLabel = new Label("K. läpimenoaika");
+		rTimeLabel.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
+		Label jPituusLabel = new Label("K. jononpituus");
+		jPituusLabel.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
+		
+		tulokset.add(tuloksetLabel, 0, 0);
+		tulokset.add(throughputLabel, 0, 1);
+		tulokset.add(new Label(f.format(throughput)), 1, 1);
+		/*
+		 * tulokset.add(sTimeLabel, 1, 2); tulokset.add(rTimeLabel, 2, 2);
+		 * tulokset.add(jPituusLabel, 3, 2);
+		 */
+		tulostaulukko.setEditable(true);
+		
+		TableColumn pPisteColumn = new TableColumn("Palvelupiste");
+		TableColumn sTimeColumn = new TableColumn("Kesk. palveluaika");
+		TableColumn rTimeColumn = new TableColumn("Kesk. läpimenoaika");
+		TableColumn jPituusColumn = new TableColumn("Kesk. jononpituus");
+		
+		pPisteColumn.setMinWidth(90);
+		sTimeColumn.setMinWidth(110);
+		rTimeColumn.setMinWidth(115);
+		jPituusColumn.setMinWidth(110);
+		
+		pPisteColumn.setCellValueFactory(new PropertyValueFactory<Tulokset, String>("palveluPiste"));
+		sTimeColumn.setCellValueFactory(new PropertyValueFactory<Tulokset, String>("servTime"));
+		rTimeColumn.setCellValueFactory(new PropertyValueFactory<Tulokset, String>("respTime"));
+		jPituusColumn.setCellValueFactory(new PropertyValueFactory<Tulokset, String>("jononpituus"));
+		
+
+		tulostaulukko.setItems(data);
+		tulostaulukko.getColumns().addAll(pPisteColumn, sTimeColumn, rTimeColumn, jPituusColumn);
+		
+		tulostaulukko.setVisible(true);
+	}
 
 	@Override
 	public IVisualisointi[] getVisualisoinnit() {
@@ -192,5 +288,57 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		launch(args);
 	}
 
+	//Dataa jonka käytetään taulukossa
+	public static class Tulokset {
+		private SimpleStringProperty palveluPiste;
+		private SimpleStringProperty servTime;
+		private SimpleStringProperty respTime;
+		private SimpleStringProperty jononpituus;
+		
+		public Tulokset(String piste, String sTime, String rTime, String jPituus) {
+			palveluPiste = new SimpleStringProperty(piste);
+			servTime = new SimpleStringProperty(sTime);
+			respTime = new SimpleStringProperty(rTime);
+			jononpituus = new SimpleStringProperty(jPituus);
+		}
+
+		public String getPalveluPiste() {
+			return palveluPiste.get();
+		}
+
+		public void setPalveluPiste(String piste) {
+			this.palveluPiste.set(piste);
+		}
+
+		public String getServTime() {
+			return servTime.get();
+		}
+
+		public void setServTime(double servTime) {
+			this.servTime.set(Double.toString(servTime));
+		}
+
+		public String getRespTime() {
+			return respTime.get();
+		}
+
+		public void setRespTime(double respTime) {
+			this.respTime.set(Double.toString(respTime));;
+		}
+
+		public String getJononpituus() {
+			return jononpituus.get();
+		}
+
+		public void setJononpituus(double jononpituus) {
+			this.jononpituus.set(Double.toString(jononpituus));;
+		}
+		
+		@Override
+		public String toString() {
+			return palveluPiste + " " + servTime + " " + respTime + " " + jononpituus;
+		}
+		
+	}
 	
 }

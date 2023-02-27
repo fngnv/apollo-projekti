@@ -67,4 +67,10 @@ public class Kontrolleri implements IKontrolleri{   // UUSI
 			}
 		});
 	}
+	
+	
+	//Lähettää simuloinnin tulokset käyttöliittymään
+	public void naytaTulokset(double throughput, double[] serviceTime, double[] responceTime, double[] jononpituus) {
+		Platform.runLater(()->ui.setTulokset(throughput, serviceTime, responceTime, jononpituus));
+	}
 }

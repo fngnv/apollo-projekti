@@ -8,6 +8,7 @@ public interface ISimulaattorinUI {
 	
 	//Kontrolleri antaa käyttöliittymälle tuloksia, joita Moottori tuottaa 
 	public void setLoppuaika(double aika);
+	public void setTulokset(double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus);
 	
 	// Kontrolleri tarvitsee  
 	public IVisualisointi[] getVisualisoinnit();
