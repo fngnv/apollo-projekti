@@ -95,7 +95,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 			aikaLabel = new Label("Simulointiaika:");
 			aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        //aika = new TextField("Syötä aika");
-			aika = new Label(SIMULOINTIAIKA + " sekuntia \n(" + SIMULOINTIAIKA / 3600 + " tuntia)");
+			aika = new Label(" " + SIMULOINTIAIKA);
 	        aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        aika.setPrefWidth(150);
 
@@ -118,7 +118,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        
 	        tulokset = new GridPane();
 	        tulokset.setPadding(new Insets(15, 12, 15, 12));
-	        tulokset.setAlignment(Pos.CENTER);
+	        tulokset.setAlignment(Pos.BOTTOM_LEFT);
 	        tulokset.setVgap(10);
 	        tulokset.setHgap(5);
 	        
@@ -131,7 +131,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        oikeapuolinenBox.setSpacing(10);
 	        
 	        GridPane grid = new GridPane();
-	        grid.setAlignment(Pos.CENTER);
+	        grid.setAlignment(Pos.TOP_LEFT);
 	        grid.setVgap(10);
 	        grid.setHgap(5);
 
@@ -217,7 +217,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	//Metodi saa simuloinnin tulokset ja asettaa ne käyttöliittymään: osan grid panen sisään ja 
 	//palvelupistekohtaiset tulokset taulukkoon
 	@Override
-	public void setTulokset(double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) {
+	public void setTulokset(int pAsiakkaat, double aikojenKA, double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) {
 		DecimalFormat f = new DecimalFormat("###.##");
 		
 		String[] palvelupisteet = new String[] {
@@ -237,21 +237,20 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		Label tuloksetLabel = new Label("Tulokset");
 		tuloksetLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 25));
 		Label throughputLabel = new Label("Apollon kokonaissuoritusteho: ");
-		throughputLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 20));
-		Label sTimeLabel = new Label("K. palveluaika");
-		sTimeLabel.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
-		Label rTimeLabel = new Label("K. läpimenoaika");
-		rTimeLabel.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
-		Label jPituusLabel = new Label("K. jononpituus");
-		jPituusLabel.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
+		throughputLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 15));
+		Label palvellutLabel = new Label("Palvellut asiakkaat: ");
+		palvellutLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 15));
+		Label aikojenKALabel = new Label("Asiakkaiden läpimenoaikojen keskiarvo");
+		aikojenKALabel.setFont(Font.font("Roboto", FontWeight.BOLD, 15));
 		
 		tulokset.add(tuloksetLabel, 0, 0);
 		tulokset.add(throughputLabel, 0, 1);
 		tulokset.add(new Label(f.format(throughput)), 1, 1);
-		/*
-		 * tulokset.add(sTimeLabel, 1, 2); tulokset.add(rTimeLabel, 2, 2);
-		 * tulokset.add(jPituusLabel, 3, 2);
-		 */
+		tulokset.add(palvellutLabel, 0, 2);
+		tulokset.add(new Label(Integer.toString(pAsiakkaat)), 1, 2);
+		tulokset.add(aikojenKALabel, 0, 3);
+		tulokset.add(new Label(f.format(aikojenKA)), 1, 3);
+		
 		tulostaulukko.setEditable(true);
 		
 		TableColumn pPisteColumn = new TableColumn("Palvelupiste");

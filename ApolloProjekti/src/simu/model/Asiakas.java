@@ -16,6 +16,7 @@ public class Asiakas {
 	private static long sum = 0;
 	private static double keskiarvo = 0;
 	private static int asiakasMaara;
+	private static int kokonaismaara = 0;
 	
 	//Tarvitaan suureiden laskemiseen
 	//Jonottamisen lopetus -muuttujaa ei tarvita, koska se on sama kuin palvelun lopetus
@@ -26,9 +27,14 @@ public class Asiakas {
 	
 	public Asiakas(){
 	    id = i++;
+	    kokonaismaara ++;
 	    
 		saapumisaika = Kello.getInstance().getAika();
 		Trace.out(Trace.Level.INFO, "Uusi asiakas:" + id + ":"+saapumisaika);
+	}
+	
+	public static int getKokonaismaara() {
+		return kokonaismaara;
 	}
 
 	public double getPoistumisaika() {

@@ -54,7 +54,11 @@ public class OmaMoottori extends Moottori{
 		case ARR1:
 			palvelupisteet[0].lisaaJonoon(new Asiakas());
 			kontrolleri.visualisoiAsiakas(0);
-			saapumisprosessi.generoiSeuraava();
+			//jos halutaan rajoittaa asiakkaiden määrää, tänne vois laittaa if(Asiakas.getMaara() < maxMaara)
+			//tai jotain semmosta
+			if(Asiakas.getKokonaismaara() < 1000) {
+				saapumisprosessi.generoiSeuraava();
+			}
 			//kontrolleri.visualisoiAsiakas();
 			break;
 		//portsari
@@ -172,10 +176,11 @@ public class OmaMoottori extends Moottori{
 		//Muuttujat joita tarvitaan suureiden laskemiseen
 		double aukioloaika = Kello.getInstance().getAika();
 		int pAsiakkaat = Asiakas.getAsiakasLkm();
+		double lapimenoaikojenKA = Asiakas.getKeskiarvo();
 		
 		System.out.println("Simulointi päättyi kello " + aukioloaika);
 		System.out.println("Palvellut asiakkaat: " + pAsiakkaat);
-		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo: " + Asiakas.getKeskiarvo());
+		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo: " + lapimenoaikojenKA);
 		
 		//Suoritustehon laskeminen
 		double throughput = pAsiakkaat / aukioloaika;
@@ -198,16 +203,7 @@ public class OmaMoottori extends Moottori{
 		// UUTTA graafista
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
 		//Seuraava metodi lähettää simulaation tulokset kontrollerille
-		kontrolleri.naytaTulokset(throughput, serviceTimeTulokset, responseTimeTulokset, keskJononpituusTulokset);
-		
-		//testausta
-		System.out.println("Throughput:" + throughput);
-		
-		for(int i = 0; i < palvelupisteet.length; i++) {
-			System.out.println("Palvelupisteen " + i + " service time " + serviceTimeTulokset[i]);
-			System.out.println("Palvelupisteen " + i + " response time " + responseTimeTulokset[i]);
-			System.out.println("Palvelupisteen " + i + " keskimääräinen jononpituus " + keskJononpituusTulokset[i]);
-		}
+		kontrolleri.naytaTulokset(pAsiakkaat, lapimenoaikojenKA, throughput, serviceTimeTulokset, responseTimeTulokset, keskJononpituusTulokset);
 	}
 
 	
