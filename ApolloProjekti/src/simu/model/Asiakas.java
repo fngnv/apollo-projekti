@@ -103,7 +103,7 @@ public class Asiakas {
 		Trace.out(Trace.Level.INFO,"Asiakas "+id+ " poistui:" +poistumisaika);
 		Trace.out(Trace.Level.INFO,"Asiakas "+id+ " viipyi:" +(poistumisaika-saapumisaika));
 		asiakasMaara++;
-		sum += poistumisaika - saapumisaika;
+		sum += (poistumisaika - saapumisaika);
 		keskiarvo = sum/asiakasMaara;
 		//System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti "+ keskiarvo);
 		System.out.println("Poistuneita asiakkaita "+ asiakasMaara);
