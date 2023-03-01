@@ -21,6 +21,7 @@ import simu.framework.Trace.Level;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -34,16 +35,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private IKontrolleri kontrolleri;
 
 	// Käyttöliittymäkomponentit:
-	private Label aika;
+	private TextField aika;
 	private TextField viive;
+	private TextField asiakkaat;
 	private Label tulos;
 	private Label aikaLabel;
 	private Label viiveLabel;
+	private Label asiakkaatLabel;
 	private Label tulosLabel;
 	private GridPane tulokset;
 	private TableView<Tulokset> tulostaulukko;
-	
-	private final int SIMULOINTIAIKA = 25200; //25200s = 7h, Apollon todellinen aukioloaika
 	
 	private Button kaynnistaButton;
 
@@ -87,23 +88,37 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 			kaynnistaButton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
-	                kontrolleri.kaynnistaSimulointi();
-	                kaynnistaButton.setDisable(true);
+	            	if(Integer.parseInt(asiakkaat.getText()) < 500) {
+	        			Alert alert = new Alert(AlertType.ERROR);
+	        			alert.setTitle("Error");
+	        			alert.setHeaderText("Liian pieni asiakasmäärä");
+	        			alert.setContentText("Pienin sallittu asiakasmäärä on 500");
+	        			
+	        			alert.showAndWait();
+	        		} else {
+	        			kontrolleri.kaynnistaSimulointi();
+		                kaynnistaButton.setDisable(true);
+	        		}	             
 	            }
 	        });
 
-			aikaLabel = new Label("Simulointiaika:");
+			aikaLabel = new Label("Simulointiaika: ");
 			aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-	        //aika = new TextField("Syötä aika");
-			aika = new Label(" " + SIMULOINTIAIKA);
+	        aika = new TextField("25200"); //Oletus aukioloaika(25200 sek = 7 t). Käyttäjä saa vaihtaa
 	        aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        aika.setPrefWidth(150);
 
-	        viiveLabel = new Label("Viive:");
+	        viiveLabel = new Label("Viive: ");
 			viiveLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-	        viive = new TextField("Syötä viive");
+	        viive = new TextField("0");
 	        viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        viive.setPrefWidth(150);
+	        
+	        asiakkaatLabel = new Label("Asiakkaiden enimmäismäärä: ");
+	        asiakkaatLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+	        asiakkaat = new TextField("1200");
+	        asiakkaat.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+	        asiakkaat.setPrefWidth(150);
 	                	        
 	        tulosLabel = new Label("Kokonaisaika:");
 			tulosLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -138,10 +153,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        grid.add(aikaLabel, 0, 0);   // sarake, rivi
 	        grid.add(aika, 1, 0);          // sarake, rivi
 	        grid.add(viiveLabel, 0, 1);      // sarake, rivi
-	        grid.add(viive, 1, 1);           // sarake, rivi
-	        grid.add(tulosLabel, 0, 2);      // sarake, rivi
-	        grid.add(tulos, 1, 2);           // sarake, rivi
-	        grid.add(kaynnistaButton,0, 3);  // sarake, rivi
+	        grid.add(viive, 1, 1);             // sarake, rivi
+	        grid.add(asiakkaatLabel, 0, 2);
+	        grid.add(asiakkaat, 1, 2);         // sarake, rivi
+	        grid.add(tulosLabel, 0, 3);      // sarake, rivi
+	        grid.add(tulos, 1, 3);
+	        grid.add(kaynnistaButton,0, 4);  // sarake, rivi
 	        
 	        portsari = new Visualisointi(400,40);
 	        narikka1 = new Visualisointi(400, 40);
@@ -200,7 +217,14 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 
 	@Override
 	public double getAika(){
-		return SIMULOINTIAIKA;
+		return Double.parseDouble(aika.getText());
+	}
+	
+	public int getAsiakkaat() {
+		//jos ei toimi, yritä laittaa se onClickin kohdalle
+		
+			return Integer.parseInt(asiakkaat.getText());
+		
 	}
 
 	@Override
@@ -218,7 +242,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	//palvelupistekohtaiset tulokset taulukkoon
 	@Override
 	public void setTulokset(int pAsiakkaat, double aikojenKA, double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) {
-		DecimalFormat f = new DecimalFormat("###.##");
+		DecimalFormat f = new DecimalFormat("#####.##");
 		
 		String[] palvelupisteet = new String[] {
 				"Portsari", "Narikka1", "Baaritiski", "Tanssilattia", "Karaoke", "Istuminen", "Narikka2"

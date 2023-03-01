@@ -22,6 +22,7 @@ public class Kontrolleri implements IKontrolleri{   // UUSI
 		moottori = new OmaMoottori(this); // luodaan uusi moottorisäie jokaista simulointia varten
 		moottori.setSimulointiaika(ui.getAika());
 		moottori.setViive(ui.getViive());
+		moottori.setAsiakasmaara(ui.getAsiakkaat());
 		for(int i = 0; i < ui.getVisualisoinnit().length; i++) {
 			ui.getVisualisoinnit()[i].tyhjennaNaytto();
 		}

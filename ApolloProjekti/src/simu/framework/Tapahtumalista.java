@@ -18,7 +18,11 @@ public class Tapahtumalista {
 	}
 	
 	public double getSeuraavanAika(){
-		return lista.peek().getAika();
+		if(lista.peek() != null) {
+			return lista.peek().getAika();
+		} else {
+			return Kello.getInstance().getAika();
+		}
 	}
 	
 	

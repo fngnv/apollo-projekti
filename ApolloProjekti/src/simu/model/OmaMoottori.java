@@ -56,10 +56,9 @@ public class OmaMoottori extends Moottori{
 			kontrolleri.visualisoiAsiakas(0);
 			//jos halutaan rajoittaa asiakkaiden määrää, tänne vois laittaa if(Asiakas.getMaara() < maxMaara)
 			//tai jotain semmosta
-			if(Asiakas.getKokonaismaara() < 1000) {
+			if(Asiakas.getKokonaismaara() < super.getAsiakasmaara()) {
 				saapumisprosessi.generoiSeuraava();
 			}
-			//kontrolleri.visualisoiAsiakas();
 			break;
 		//portsari
 		case DEP1:

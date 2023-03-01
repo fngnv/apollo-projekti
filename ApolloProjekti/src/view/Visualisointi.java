@@ -35,10 +35,11 @@ public class Visualisointi extends Canvas implements IVisualisointi{
 	
 	@Override
 	public void poistaAsiakas() {
-		gc.setFill(Color.WHITE);
+		gc.setFill(Color.ORANGE);
 		gc.fillOval(i,j,10,10);
 		
 		i = (i - 10) % this.getWidth();
+		
 		
 		//i = (i + 10) % this.getWidth();
 		//j = (j + 12) % this.getHeight();
