@@ -62,7 +62,6 @@ public class Palvelupiste {
 
 
 	public boolean onVarattu(){
-		varattu = true;
 		return varattu;
 	}
 

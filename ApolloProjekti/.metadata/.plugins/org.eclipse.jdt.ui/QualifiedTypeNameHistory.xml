@@ -14,4 +14,5 @@
     <fullyQualifiedTypeName name="simu.model.Asiakas"/>
     <fullyQualifiedTypeName name="org.junit.Before"/>
     <fullyQualifiedTypeName name="simu.framework.Tapahtuma"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.BeforeEach"/>
 </qualifiedTypeNameHistroy>
