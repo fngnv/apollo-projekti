@@ -1,7 +1,0 @@
-package simu.model;
-
-public class Suureet {
-	
-	private double suoritusteho;
-
-}

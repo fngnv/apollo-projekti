@@ -27,7 +27,7 @@ public class Palvelupiste {
 	
 	//JonoStartegia strategia; //optio: asiakkaiden järjestys
 	
-	private boolean varattu = false;
+	private boolean varattu = false; 
 
 
 	public Palvelupiste(ContinuousGenerator generator, Tapahtumalista tapahtumalista, TapahtumanTyyppi tyyppi){
@@ -85,7 +85,11 @@ public class Palvelupiste {
 	//Laskee palvelupisteen keskimääräisen läpimenoajan ja palauttaa sen. Jonottamiset ovat laskettu mukaan
 	public double getResponseTime() {
 		responseTime = waitingTime / palveltujenMaara;
-		return responseTime;
+		if (responseTime >= 0) {
+	        return responseTime;
+	    } else {
+	        return 0.0;
+	    }
 	}
 	
 	//Palauttaa kaikkien palvelupisteessä oleskeluaikojen summan (mm. jonottaminen)

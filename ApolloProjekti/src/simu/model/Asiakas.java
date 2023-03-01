@@ -9,8 +9,6 @@ import simu.framework.Trace;
 public class Asiakas {
 	private double saapumisaika;
 	private double poistumisaika;
-	//private double palvelupSaapumisaika;
-	//private double palvelupPoistumisaika;
 	private int id;
 	private static int i = 1;
 	private static long sum = 0;
@@ -58,8 +56,20 @@ public class Asiakas {
 		palvelunAloitus = aloitusaika;
 	}
 	
-	public void setPalvelunLopetus(double lopetusaika) {
-		palvelunLopetus = lopetusaika;
+	public double getJonottamisenAloitus() {
+		return jonottamisenAloitus;
+	}
+
+	public double getPalvelunAloitus() {
+		return palvelunAloitus;
+	}
+
+	public double getPalvelunLopetus() {
+		return palvelunLopetus;
+	}
+
+	public void setPalvelunLopetus(double palvelunLopetus) {
+	    this.palvelunLopetus = palvelunLopetus;
 	}
 	
 	public void setJonottamisenAloitus(double aloitusaika) {
@@ -75,23 +85,7 @@ public class Asiakas {
 	public double palvelupisteessaVietettyAika() {
 		return palvelunLopetus - palvelunAloitus;
 	}
-	/**
-	public double getPalvelupisteenPoistumisaika() {
-		return palvelupPoistumisaika;
-	}
-
-	public void setPalvelupisteenPoistumisaika(double palvelupPoistumisaika) {
-		this.palvelupPoistumisaika = palvelupPoistumisaika;
-	}
-
-	public double getPalvelupisteenSaapumisaika() {
-		return palvelupSaapumisaika;
-	}
-
-	public void setPalvelupisteenSaapumisaika(double palvelupSaapumisaika) {
-		this.palvelupSaapumisaika = palvelupSaapumisaika;
-	}
-	*/
+	
 	public int getId() {
 		return id;
 	}
@@ -108,12 +102,12 @@ public class Asiakas {
 		Trace.out(Trace.Level.INFO, "Asiakas "+id+ " saapui:" +saapumisaika);
 		Trace.out(Trace.Level.INFO,"Asiakas "+id+ " poistui:" +poistumisaika);
 		Trace.out(Trace.Level.INFO,"Asiakas "+id+ " viipyi:" +(poistumisaika-saapumisaika));
-		sum += (poistumisaika-saapumisaika);
 		asiakasMaara++;
+		sum += poistumisaika - saapumisaika;
 		keskiarvo = sum/asiakasMaara;
-		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti "+ keskiarvo);
+		//System.out.println("Asiakkaiden läpimenoaikojen keskiarvo tähän asti "+ keskiarvo);
 		System.out.println("Poistuneita asiakkaita "+ asiakasMaara);
-		double keskiarvo = sum/id;
+		//double keskiarvo = sum/id;
 		System.out.println("Asiakkaiden läpimenoaikojen keskiarvo "+ keskiarvo);
 	}
 

@@ -1,9 +1,0 @@
-package simu.model;
-
-public class Suureet {
-	
-	private static Suureet INSTANCE = null;
-	
-	private double suoritusteho;
-
-}
