@@ -21,6 +21,7 @@ import simu.framework.Moottori;
 import simu.framework.Trace;
 import simu.framework.Trace.Level;
 import simu.model.Datantallennus;
+import simu.model.IDatantallenusDAO;
 import simu.model.OmaMoottori;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
@@ -34,7 +35,7 @@ import javafx.scene.text.*;
 
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
-	Datantallennus datantallennus = new Datantallennus();
+	IDatantallenusDAO datantallennus = new Datantallennus();
 
 	//Kontrollerin esittely (tarvitaan käyttöliittymässä)
 	private IKontrolleri kontrolleri;
@@ -305,6 +306,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		
 		try {
 			datantallennus.saveSimulationResults(pAsiakkaat, aikojenKA, throughput, serviceTime, responseTime, jononpituus);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			datantallennus.printSimulationResults();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			datantallennus.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
