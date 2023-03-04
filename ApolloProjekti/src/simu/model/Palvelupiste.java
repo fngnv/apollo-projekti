@@ -97,4 +97,9 @@ public class Palvelupiste {
 		return waitingTime;
 	}
 
+
+	public int getPalveltujenMaara() {
+		return palveltujenMaara;
+	}
+
 }

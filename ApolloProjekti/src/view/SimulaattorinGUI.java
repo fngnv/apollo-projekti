@@ -1,6 +1,7 @@
 package view;
 
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import controller.*;
 //import simu.model.Tulokset;
@@ -16,8 +17,11 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import simu.framework.Kello;
+import simu.framework.Moottori;
 import simu.framework.Trace;
 import simu.framework.Trace.Level;
+import simu.model.Datantallennus;
+import simu.model.OmaMoottori;
 import javafx.scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -30,6 +34,7 @@ import javafx.scene.text.*;
 
 
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
+	Datantallennus datantallennus = new Datantallennus();
 
 	//Kontrollerin esittely (tarvitaan käyttöliittymässä)
 	private IKontrolleri kontrolleri;
@@ -297,6 +302,13 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		tulostaulukko.getColumns().addAll(pPisteColumn, sTimeColumn, rTimeColumn, jPituusColumn);
 		
 		tulostaulukko.setVisible(true);
+		
+		try {
+			datantallennus.saveSimulationResults(pAsiakkaat, aikojenKA, throughput, serviceTime, responseTime, jononpituus);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -323,6 +335,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 			servTime = new SimpleStringProperty(sTime);
 			respTime = new SimpleStringProperty(rTime);
 			jononpituus = new SimpleStringProperty(jPituus);
+		}
+
+		public static void annetutArvot() {
+			// TODO Auto-generated method stub
+			
 		}
 
 		public String getPalveluPiste() {

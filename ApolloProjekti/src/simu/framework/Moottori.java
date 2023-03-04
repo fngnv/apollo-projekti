@@ -35,6 +35,10 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 		simulointiaika = aika;
 	}
 	
+	public double getSimulointiaika() {
+		return simulointiaika;
+	}
+
 	@Override
 	public void setAsiakasmaara(int maara) {
 		asiakasmaara = maara;
