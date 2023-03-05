@@ -328,8 +328,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		
 		tulostaulukko.setVisible(true);
 		
+		double simulointiaika = Double.parseDouble(aika.getText());
+		int asiakasMaara = Integer.parseInt(asiakkaat.getText());
+		double aikaViive = Double.parseDouble(viive.getText());
+		
 		try {
-			datantallennus.saveSimulationResults(pAsiakkaat, aikojenKA, throughput, serviceTime, responseTime, jononpituus);
+			datantallennus.saveSimulationResults(simulointiaika, asiakasMaara, aikaViive, pAsiakkaat, aikojenKA, throughput, serviceTime, responseTime, jononpituus);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
