@@ -29,10 +29,10 @@ public class Datantallennus implements IDatantallenusDAO{
 	}
 
 	    public void saveSimulationResults(double simulointiaika, int asiakasMaara, double aikaViive, int pAsiakkaat, double aikojenKA, double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) throws SQLException {
-	        // Prepare the statement for inserting data
+	    	// Valmistellaan SQL-lauseke datan tallentamiseksi
 	        PreparedStatement stmt = conn.prepareStatement("INSERT INTO simulaatiotulokset (simulointiaika, asiakasMaara, aikaViive, pAsiakkaat, aikojenKA, throughput, serviceTime1, serviceTime2, serviceTime3, serviceTime4, serviceTime5, serviceTime6, serviceTime7, responseTime1, responseTime2, responseTime3, responseTime4, responseTime5, responseTime6, responseTime7, jononpituus1, jononpituus2, jononpituus3, jononpituus4, jononpituus5, jononpituus6, jononpituus7) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-	        // Set the values of the parameters in the statement
+	     // Asetetaan parametrien arvot SQL-lausekkeeseen
 	        stmt.setDouble(1, simulointiaika);
 	        stmt.setInt(2, asiakasMaara);
 	        stmt.setDouble(3, aikaViive);
@@ -45,22 +45,22 @@ public class Datantallennus implements IDatantallenusDAO{
 	            stmt.setDouble(21 + i, jononpituus[i]);
 	        }
 
-	        // Execute the statement to insert the data
+	     // Suoritetaan SQL-lauseke datan tallentamiseksi
 	        stmt.executeUpdate();
 	    }
 		
 		public void printSimulationResults() throws SQLException {
-		    // Prepare the statement for retrieving data
+			// Valmistellaan SQL-lauseke datan noutamiseksi
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = stmt.executeQuery("SELECT * FROM simulaatiotulokset");
 
-		    // Print the header row
+		 // Tulostetaan otsikkorivi
 		    System.out.printf("%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s\n",
 		            "ID", "simulointiaika", "asiakasMaara", "aikaViive", "pAsiakkaat", "aikojenKA", "throughput", "serviceTime1", "serviceTime2", "serviceTime3", "serviceTime4", "serviceTime5", "serviceTime6", "serviceTime7",
 		            "responseTime1", "responseTime2", "responseTime3", "responseTime4", "responseTime5", "responseTime6", "responseTime7", "jononpituus1", "jononpituus2", "jononpituus3",
 		            "jononpituus4", "jononpituus5", "jononpituus6", "jononpituus7");
 
-		    // Print the rows of data
+		    // Printataan data
 		    while (rs.next()) {
 		    	System.out.printf("%-15s%-15s%-15s%-15s%-15s%-15f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f%-15.8f\n",
 		    		    rs.getInt("id"), rs.getInt("simulointiaika"), rs.getInt("asiakasMaara"), rs.getInt("aikaViive"), rs.getInt("pAsiakkaat"), rs.getDouble("aikojenKA"), rs.getDouble("throughput"),
@@ -71,7 +71,7 @@ public class Datantallennus implements IDatantallenusDAO{
 		    		    rs.getDouble("jononpituus7"));
 		    }
 
-		    // Close the statement and result set
+		    
 		    rs.close();
 		    stmt.close();
 		}

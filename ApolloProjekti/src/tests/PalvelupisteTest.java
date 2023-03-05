@@ -31,71 +31,94 @@ class PalvelupisteTest {
 		asiakas2 = new Asiakas();
 	}
 	
-	@Test
-	public void testLisaaJonoon() {
-		palvelupiste.lisaaJonoon(asiakas1);
-		assertTrue(palvelupiste.onJonossa());
-		System.out.println("Asiakas lisätty jonoon");
-	}
-	
-	@Test
-	public void testOtaJonosta() {
-		palvelupiste.lisaaJonoon(asiakas1);
-		Asiakas palvellut = palvelupiste.otaJonosta();
-		assertEquals(asiakas1, palvellut);
-		System.out.println("Palvellut asiakkaat tähän mennessä: " + palvellut);
-	}
-	
-	@Test
-	public void testAloitaPalvelu() {
-		palvelupiste.lisaaJonoon(asiakas1);
-		palvelupiste.aloitaPalvelu();
-		assertTrue(palvelupiste.onVarattu());
-		System.out.println("Palvelu on aloitettu, joten palvelupiste on varattu.");
-	}
-	
-	@Test
-	public void testOnVarattu() {
-		palvelupiste.lisaaJonoon(asiakas1);
-	    palvelupiste.aloitaPalvelu();
-	    assertTrue(palvelupiste.onVarattu());
-	}
-	
-	@Test
-	public void testOnJonossa() {
-		assertFalse(palvelupiste.onJonossa());
-		palvelupiste.lisaaJonoon(asiakas1);
-		assertTrue(palvelupiste.onJonossa());
-	}
-	
-	@Test
-	public void testGetJononPituus() {
-		assertEquals(0, palvelupiste.getJononPituus());
-		System.out.println("Jonossa on nyt: " + palvelupiste.getJononPituus() + " hlöä.");
-		palvelupiste.lisaaJonoon(asiakas1);
-		palvelupiste.lisaaJonoon(asiakas2);
-		assertEquals(2, palvelupiste.getJononPituus());
-		System.out.println("Jonossa on nyt: " + palvelupiste.getJononPituus() + " hlöä.");
-	}
-	
-	@Test
-	public void testGetServiceTime() {
-	    // Create a Palvelupiste with a Normal distribution
-	    Palvelupiste palvelupiste = new Palvelupiste(new Normal(60, 600), tapahtumalista, TapahtumanTyyppi.DEP3);
-	    palvelupiste.lisaaJonoon(asiakas1);
-	    palvelupiste.aloitaPalvelu();
-	    palvelupiste.otaJonosta();
+    @Test
+    public void testLisaaJonoon() {
+        try {
+            palvelupiste.lisaaJonoon(asiakas1);
+            assertTrue(palvelupiste.onJonossa());
+            System.out.println("Asiakas lisätty jonoon");
+        } catch (Exception e) {
+            fail("Virhe testatessa testLisaaJonoon(): " + e.getMessage());
+        }
+    }
 
-	    // Wait for a specific amount of time according to the distribution
-	    double expectedServiceTime = palvelupiste.getServiceTime();
-	    try {
-	        Thread.sleep((long) (expectedServiceTime * 1000));
-	    } catch (InterruptedException e) {
-	        e.printStackTrace();
-	    }
-	    assertEquals(expectedServiceTime, palvelupiste.getServiceTime(), 0.0);
-	    System.out.println("Palveluaika: " + palvelupiste.getServiceTime());
-	}
+    @Test
+    public void testOtaJonosta() {
+        try {
+            palvelupiste.lisaaJonoon(asiakas1);
+            Asiakas palvellut = palvelupiste.otaJonosta();
+            assertEquals(asiakas1, palvellut);
+            System.out.println("Palvellut asiakkaat tähän mennessä: " + palvellut);
+        } catch (Exception e) {
+            fail("Virhe testatessa testOtaJonosta(): " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAloitaPalvelu() {
+        try {
+            palvelupiste.lisaaJonoon(asiakas1);
+            palvelupiste.aloitaPalvelu();
+            assertTrue(palvelupiste.onVarattu());
+            System.out.println("Palvelu on aloitettu, joten palvelupiste on varattu.");
+        } catch (Exception e) {
+            fail("Virhe testatessa testAloitaPalvelu(): " + e.getMessage());
+        }
+    }
+	
+    @Test
+    public void testOnVarattu() {
+        try {
+            palvelupiste.lisaaJonoon(asiakas1);
+            palvelupiste.aloitaPalvelu();
+            assertTrue(palvelupiste.onVarattu());
+        } catch (Exception e) {
+            fail("Virhe testatessa testOnVarattu(): " + e.getMessage());
+        }
+    }
+	
+    @Test
+    public void testOnJonossa() {
+    try {
+    assertFalse(palvelupiste.onJonossa());
+    palvelupiste.lisaaJonoon(asiakas1);
+    assertTrue(palvelupiste.onJonossa());
+    } catch (Exception e) {
+    fail("Virhe testatessa testOnJonossa(): " + e.getMessage());
+    }
+    }
+
+    @Test
+    public void testGetJononPituus() {
+    try {
+    assertEquals(0, palvelupiste.getJononPituus());
+    System.out.println("Jonossa on nyt: " + palvelupiste.getJononPituus() + " hlöä.");
+    palvelupiste.lisaaJonoon(asiakas1);
+    palvelupiste.lisaaJonoon(asiakas2);
+    assertEquals(2, palvelupiste.getJononPituus());
+    System.out.println("Jonossa on nyt: " + palvelupiste.getJononPituus() + " hlöä.");
+    } catch (Exception e) {
+    fail("Virhe testatessa testOnJonossa(): " + e.getMessage());
+    }
+    }
+
+    @Test
+    public void testGetServiceTime() {
+    // Create a Palvelupiste with a Normal distribution
+    Palvelupiste palvelupiste = new Palvelupiste(new Normal(60, 600), tapahtumalista, TapahtumanTyyppi.DEP3);
+    palvelupiste.lisaaJonoon(asiakas1);
+    palvelupiste.aloitaPalvelu();
+    palvelupiste.otaJonosta();
+ // Wait for a specific amount of time according to the distribution
+    double expectedServiceTime = palvelupiste.getServiceTime();
+    try {
+    	Thread.sleep((long) (expectedServiceTime * 1000));
+    	assertEquals(expectedServiceTime, palvelupiste.getServiceTime(), 0.0);
+    	System.out.println("Palveluaika: " + palvelupiste.getServiceTime());
+    } catch (Exception e) {
+    	fail("Virhe testatessa testGetServiceTime(): " + e.getMessage());
+    }
+    }
 	
 	@Test
 	public void testGetResponseTime() {
