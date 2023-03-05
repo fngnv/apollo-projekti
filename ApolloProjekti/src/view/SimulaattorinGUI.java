@@ -14,6 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import simu.framework.Kello;
@@ -53,6 +55,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private TableView<Tulokset> tulostaulukko;
 	
 	private Button kaynnistaButton;
+	private Button aiemmatAjotBtn;
 
 	private IVisualisointi portsari;
 	private IVisualisointi narikka1;
@@ -107,6 +110,21 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        		}	             
 	            }
 	        });
+			
+			aiemmatAjotBtn = new Button();
+			aiemmatAjotBtn.setText("Aiemmat ajot");
+			aiemmatAjotBtn.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override
+			    public void handle(ActionEvent event) {
+			        Taulukko taulukko = new Taulukko();
+			        try {
+						taulukko.naytaTaulukko();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			});
 
 			aikaLabel = new Label("Simulointiaika: ");
 			aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -165,6 +183,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        grid.add(tulosLabel, 0, 3);      // sarake, rivi
 	        grid.add(tulos, 1, 3);
 	        grid.add(kaynnistaButton,0, 4);  // sarake, rivi
+	        grid.add(aiemmatAjotBtn, 1, 4);
 	        
 	        portsari = new Visualisointi(400,40);
 	        narikka1 = new Visualisointi(400, 40);
@@ -209,6 +228,11 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        
 	        Scene scene = new Scene(hBox);
 	        primaryStage.setScene(scene);
+	        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+	        primaryStage.setX(screenBounds.getMinX());
+	        primaryStage.setY(screenBounds.getMinY());
+	        primaryStage.setWidth(screenBounds.getWidth());
+	        primaryStage.setHeight(screenBounds.getHeight());
 	        primaryStage.show();
 
 
