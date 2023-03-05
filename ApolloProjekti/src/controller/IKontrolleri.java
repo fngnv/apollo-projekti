@@ -14,5 +14,6 @@ public interface IKontrolleri {
 		public void visualisoiAsiakas(int jononNro);
 		public void poistaAsiakkaanVisualisointi(int jononNro);
 		public void naytaTulokset(int palvellutAsiakkaat, double lMenoKA, double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus);
+		public void naytaJononpituus(int pPiste, int pituus);
 
 }

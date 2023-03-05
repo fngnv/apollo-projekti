@@ -53,6 +53,18 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private Label tulosLabel;
 	private GridPane tulokset;
 	private TableView<Tulokset> tulostaulukko;
+	//kokeilua
+	private Label plkm = new Label();
+	private Label n1lkm = new Label();
+	private Label blkm = new Label();
+	private Label tlkm = new Label();
+	private Label klkm = new Label();
+	private Label ilkm = new Label();
+	private Label n2lkm = new Label();
+	
+	private Label[] lkmLabelit = new Label[] {
+			plkm, n1lkm, blkm, tlkm, klkm, ilkm, n2lkm
+	};
 	
 	private Button kaynnistaButton;
 	private Button aiemmatAjotBtn;
@@ -119,6 +131,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 			        Taulukko taulukko = new Taulukko();
 			        try {
 						taulukko.naytaTaulukko();
+						
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -193,6 +206,22 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        istuminen = new Visualisointi(400, 40);
 	        narikka2 = new Visualisointi(400, 40);
 	        
+	        HBox pBox = new HBox();
+	        HBox n1Box = new HBox();
+	        HBox bBox = new HBox();
+	        HBox tBox = new HBox();
+	        HBox kBox = new HBox();
+	        HBox iBox = new HBox();
+	        HBox n2box = new HBox();
+	        
+	        pBox.getChildren().addAll((Canvas)portsari, plkm);
+	        n1Box.getChildren().addAll((Canvas)narikka1, n1lkm);
+	        bBox.getChildren().addAll((Canvas)baaritiski, blkm);
+	        tBox.getChildren().addAll((Canvas)tanssilattia, tlkm);
+	        kBox.getChildren().addAll((Canvas)karaoke, klkm);
+	        iBox.getChildren().addAll((Canvas)istuminen, ilkm);
+	        n2box.getChildren().addAll((Canvas)narikka2, n2lkm);
+	        
 	        Label pLabel = new Label("Portsari");
 	        Label n1Label = new Label("Saapumisnarikka");
 	        Label bLabel = new Label("Baaritiski");
@@ -215,8 +244,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        
 
 	        // Täytetään boxit:
-	        oikeapuolinenBox.getChildren().addAll(pLabel, (Canvas)portsari, n1Label, (Canvas)narikka1, bLabel, (Canvas)baaritiski, tLabel, (Canvas)tanssilattia,
-	        		kLabel, (Canvas)karaoke, iLabel, (Canvas)istuminen, n2Label, (Canvas)narikka2);
+	        oikeapuolinenBox.getChildren().addAll(pLabel, pBox, n1Label, n1Box, bLabel, bBox, tLabel, tBox,
+	        		kLabel, kBox, iLabel, iBox, n2Label, n2box);
 	        oikeapuolinenBox.setBorder(new Border(new BorderStroke(Color.ORANGE, 
 	                BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 	        vasenpuolinenBox.getChildren().addAll(grid, tulokset, tulostaulukko);
@@ -362,6 +391,12 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	//
+	@Override
+	public void tulostaJononpituus(int labelNro, int pituus) {
+		lkmLabelit[labelNro].setText(Integer.toString(pituus));
 	}
 
 	//Dataa jonka käytetään taulukossa
