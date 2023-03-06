@@ -53,7 +53,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private Label tulosLabel;
 	private GridPane tulokset;
 	private TableView<Tulokset> tulostaulukko;
-	//kokeilua
 	private Label plkm = new Label();
 	private Label n1lkm = new Label();
 	private Label blkm = new Label();
@@ -68,6 +67,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	
 	private Button kaynnistaButton;
 	private Button aiemmatAjotBtn;
+	private Button hidastaButton;
+	private Button nopeutaButton;
 
 	private IVisualisointi portsari;
 	private IVisualisointi narikka1;
@@ -122,6 +123,14 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        		}	             
 	            }
 	        });
+			
+			hidastaButton = new Button();
+			hidastaButton.setText("Hidasta");
+			hidastaButton.setOnAction(e -> kontrolleri.hidasta());
+
+			nopeutaButton = new Button();
+			nopeutaButton.setText("Nopeuta");
+			nopeutaButton.setOnAction(e -> kontrolleri.nopeuta());
 			
 			aiemmatAjotBtn = new Button();
 			aiemmatAjotBtn.setText("Aiemmat ajot");
@@ -195,8 +204,10 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        grid.add(asiakkaat, 1, 2);         // sarake, rivi
 	        grid.add(tulosLabel, 0, 3);      // sarake, rivi
 	        grid.add(tulos, 1, 3);
-	        grid.add(kaynnistaButton,0, 4);  // sarake, rivi
-	        grid.add(aiemmatAjotBtn, 1, 4);
+	        grid.add(kaynnistaButton,0, 5);  // sarake, rivi
+	        grid.add(aiemmatAjotBtn, 1, 5);
+	        grid.add(nopeutaButton, 0, 4);   // sarake, rivi
+	        grid.add(hidastaButton, 1, 4); 
 	        
 	        portsari = new Visualisointi(400,40);
 	        narikka1 = new Visualisointi(400, 40);
