@@ -37,7 +37,9 @@ public class Taulukko {
 	    table.getColumnModel().getColumn(0).setPreferredWidth(40);
 	    table.getColumnModel().getColumn(1).setPreferredWidth(70);
 	    table.getColumnModel().getColumn(2).setPreferredWidth(80);
-	    for (int i = 3; i < table.getColumnCount(); i++) {
+	    table.getColumnModel().getColumn(3).setPreferredWidth(80);
+	    table.getColumnModel().getColumn(4).setPreferredWidth(80);
+	    for (int i = 5; i < table.getColumnCount(); i++) {
 	        table.getColumnModel().getColumn(i).setPreferredWidth(120);
 	    }
 
