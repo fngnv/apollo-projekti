@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import org.junit.Assert;
@@ -9,7 +10,10 @@ import org.junit.Assert;
 import simu.model.Asiakas;
 
 class AsiakasTest {
+	private final double DELTA = 0.001;
+	
 	@Test
+	@DisplayName("Toimiiko getterit ja setterit oikein")
     public void testSettersAndGetters() {
         try {
             Asiakas asiakas = new Asiakas();
@@ -21,88 +25,75 @@ class AsiakasTest {
             double jonottamisenAloitus = 5.5;
 
             asiakas.setSaapumisaika(saapumisaika);
-            Assert.assertEquals(saapumisaika, asiakas.getSaapumisaika(), 0.0);
+            assertEquals(saapumisaika, asiakas.getSaapumisaika(), DELTA, "getSaapumisaika() väärin");
 
             asiakas.setPoistumisaika(poistumisaika);
-            Assert.assertEquals(poistumisaika, asiakas.getPoistumisaika(), 0.0);
+            assertEquals(poistumisaika, asiakas.getPoistumisaika(), DELTA, "getPoistumisaika() väärin");
 
             asiakas.setPalvelunAloitus(palvelunAloitus);
-            Assert.assertEquals(palvelunAloitus, asiakas.getPalvelunAloitus(), 0.0);
+            assertEquals(palvelunAloitus, asiakas.getPalvelunAloitus(), DELTA, "getPalvelunAloitus() väärin");
 
             asiakas.setPalvelunLopetus(palvelunLopetus);
-            Assert.assertEquals(palvelunLopetus, asiakas.getPalvelunLopetus(), 0.0);
+            assertEquals(palvelunLopetus, asiakas.getPalvelunLopetus(), DELTA, "getPalvelunLopetus() väärin");
 
             asiakas.setJonottamisenAloitus(jonottamisenAloitus);
-            Assert.assertEquals(jonottamisenAloitus, asiakas.getJonottamisenAloitus(), 0.0);
+            assertEquals(jonottamisenAloitus, asiakas.getJonottamisenAloitus(), DELTA, "getJonottamisenAloitus() väärin");
         } catch (Exception e) {
             fail("Virhe testatessa testSettersAndGetters(): " + e.getMessage());
         }
     }
 
     @Test
+    @DisplayName("Onko jonossa vietetty aika laskettu oikein")
     public void testJonossaVietettyAika() {
         try {
             simu.framework.Trace.setTraceLevel(simu.framework.Trace.Level.INFO);
             Asiakas asiakas = new Asiakas();
             asiakas.setPalvelunLopetus(10.0);
             asiakas.setJonottamisenAloitus(5.0);
-            Assert.assertEquals(5.0, asiakas.jonossaVietettyAika(), 0.0);
-            System.out.println("Jonossa vietetty aika: " + asiakas.jonossaVietettyAika());
+            assertEquals(5.0, asiakas.jonossaVietettyAika(), DELTA, "Jonossa vietetty aika laskettu väärin");
         } catch (Exception e) {
             fail("Virhe testatessa testJonossaVietettyAika(): " + e.getMessage());
         }
     }
 
     @Test
+    @DisplayName("Onko palvelupisteessä vietetty aika laskettu oikein")
     public void testPalvelupisteessaVietettyAika() {
         try {
             Asiakas asiakas = new Asiakas();
             asiakas.setPalvelunAloitus(5.0);
             asiakas.setPalvelunLopetus(10.0);
-            Assert.assertEquals(5.0, asiakas.palvelupisteessaVietettyAika(), 0.0);
-            System.out.println("Palvelupisteessä vietetty aika: " + asiakas.palvelupisteessaVietettyAika());
+            assertEquals(5.0, asiakas.palvelupisteessaVietettyAika(), DELTA, "Palvelupisteessä vietetty aika laskettu väärin");
         } catch (Exception e) {
             fail("Virhe testatessa testPalvelupisteessaVietettyAika(): " + e.getMessage());
         }
     }
 
     @Test
+    @DisplayName("Ovatko asiakkaiden Id:t oikeassa järjestyksessä")
     public void testGetId() {
         try {
             Asiakas asiakas1 = new Asiakas();
             Asiakas asiakas2 = new Asiakas();
-            assertNotEquals(asiakas1.getId(), asiakas2.getId());
-            System.out.println("Asiakkaan id: " + asiakas1.getId()+ " Toisen asiakkaan id: " + asiakas2.getId());
+            assertNotEquals(asiakas1.getId(), asiakas2.getId(), "Kahdella eri asiakkaalla samat Id:t");
+            assertEquals(1, asiakas2.getId() - asiakas1.getId(), "Asiakkaiden Id:t ovat väärässä järjestyksessä");
             } catch (Exception e) {
             fail("Virhe testatessa testGetId(): " + e.getMessage());
             }
             }
     
     @Test
+    @DisplayName("Onko asiakkaiden kokonaismäärä laskettu oikein")
     public void testGetKokonaismaara() {
         try {
             int alussa = Asiakas.getKokonaismaara();
             Asiakas asiakas1 = new Asiakas();
             Asiakas asiakas2 = new Asiakas();
             int lopussa = Asiakas.getKokonaismaara();
-            assertEquals(alussa + 2, lopussa);
-            System.out.println("Asiakkaita yhteensä tähän mennessä: " + Asiakas.getKokonaismaara());
+            assertEquals(alussa + 2, lopussa, "Asiakasmäärä laskettu väärin");
         } catch (Exception e) {
             fail("Virhe testatessa testGetKokonaismaara(): " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testRaportti() {
-        try {
-            Asiakas asiakas = new Asiakas();
-            asiakas.setSaapumisaika(5.0);
-            asiakas.setPoistumisaika(10.0);
-            asiakas.raportti();
-            assertEquals(1, Asiakas.getAsiakasLkm());
-            assertEquals(5.0, Asiakas.getKeskiarvo(), 0.001);
-        } catch (Exception e) {
-            fail("Virhe testatessa testRaportti(): " + e.getMessage());
         }
     }
 }

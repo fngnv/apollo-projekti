@@ -7,7 +7,6 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 	
 	private double simulointiaika = 0;
 	private long viive = 0;
-	private int asiakasmaara;
 	
 	private Kello kello;
 	
@@ -37,16 +36,6 @@ public abstract class Moottori extends Thread implements IMoottori{  // UUDET MÃ
 	
 	public double getSimulointiaika() {
 		return simulointiaika;
-	}
-
-	@Override
-	public void setAsiakasmaara(int maara) {
-		asiakasmaara = maara;
-	}
-	
-	@Override
-	public int getAsiakasmaara() {
-		return asiakasmaara;
 	}
 	
 	@Override // UUSI

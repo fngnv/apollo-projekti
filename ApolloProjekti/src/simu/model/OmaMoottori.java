@@ -28,14 +28,14 @@ public class OmaMoottori extends Moottori{
 		palvelupisteet = new Palvelupiste[7];
 
 		palvelupisteet[0] = new Palvelupiste(new Normal(10, 60), tapahtumalista, TapahtumanTyyppi.DEP1); //portsari
-		palvelupisteet[1] = new Palvelupiste(new Normal(60, 180), tapahtumalista, TapahtumanTyyppi.DEP2); //saapumisnarikka
+		palvelupisteet[1] = new Palvelupiste(new Normal(30, 180), tapahtumalista, TapahtumanTyyppi.DEP2); //saapumisnarikka
 		palvelupisteet[2] = new Palvelupiste(new Normal(60, 600), tapahtumalista, TapahtumanTyyppi.DEP3); //baaritiski
 		palvelupisteet[3] = new Palvelupiste(new Normal(10, 1800), tapahtumalista, TapahtumanTyyppi.DEP4); //tanssilattia		
 		palvelupisteet[4] = new Palvelupiste(new Normal(180, 300), tapahtumalista, TapahtumanTyyppi.DEP5); //karaoke
 		palvelupisteet[5] = new Palvelupiste(new Normal(10, 3600), tapahtumalista, TapahtumanTyyppi.DEP6); //istuminen tai vessa
-		palvelupisteet[6] = new Palvelupiste(new Normal(60, 300), tapahtumalista, TapahtumanTyyppi.DEP7); //poistumisnarikka
+		palvelupisteet[6] = new Palvelupiste(new Normal(30, 300), tapahtumalista, TapahtumanTyyppi.DEP7); //poistumisnarikka
 
-		saapumisprosessi = new Saapumisprosessi(new Negexp(15, 5), tapahtumalista, TapahtumanTyyppi.ARR1, kontrolleri);
+		saapumisprosessi = new Saapumisprosessi(new Negexp(kontrolleri.getMaxValiaika(), kontrolleri.getMinValiaika()), tapahtumalista, TapahtumanTyyppi.ARR1, kontrolleri);
 	}
 
 	
@@ -55,9 +55,7 @@ public class OmaMoottori extends Moottori{
 			palvelupisteet[0].lisaaJonoon(new Asiakas());
 			kontrolleri.visualisoiAsiakas(0);
 			kontrolleri.naytaJononpituus(0, palvelupisteet[0].getJononPituus());
-			if(Asiakas.getKokonaismaara() < super.getAsiakasmaara()) {
 				saapumisprosessi.generoiSeuraava();
-			}
 			break;
 		//portsari, indeksi 0
 		case DEP1:

@@ -45,12 +45,14 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	// Käyttöliittymäkomponentit:
 	private TextField aika;
 	private TextField viive;
-	private TextField asiakkaat;
+	private TextField minValiaika;
+	private TextField maxValiaika;
 	private Label tulos;
 	private Label aikaLabel;
 	private Label viiveLabel;
-	private Label asiakkaatLabel;
 	private Label tulosLabel;
+	private Label minValiaikaLabel;
+	private Label maxValiaikaLabel;
 	private GridPane tulokset;
 	private TableView<Tulokset> tulostaulukko;
 	private Label plkm = new Label();
@@ -110,17 +112,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 			kaynnistaButton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
-	            	if(Integer.parseInt(asiakkaat.getText()) < 500) {
-	        			Alert alert = new Alert(AlertType.ERROR);
-	        			alert.setTitle("Error");
-	        			alert.setHeaderText("Liian pieni asiakasmäärä");
-	        			alert.setContentText("Pienin sallittu asiakasmäärä on 500");
-	        			
-	        			alert.showAndWait();
-	        		} else {
-	        			kontrolleri.kaynnistaSimulointi();
-		                kaynnistaButton.setDisable(true);
-	        		}	             
+	        		kontrolleri.kaynnistaSimulointi();
+		            kaynnistaButton.setDisable(true);             
 	            }
 	        });
 			
@@ -160,11 +153,17 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        viive.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        viive.setPrefWidth(150);
 	        
-	        asiakkaatLabel = new Label("Asiakkaiden enimmäismäärä: ");
-	        asiakkaatLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-	        asiakkaat = new TextField("1200");
-	        asiakkaat.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-	        asiakkaat.setPrefWidth(150);
+	        minValiaikaLabel = new Label("Saapumisien vähimmäisväliaika: ");
+	        minValiaikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+	        minValiaika = new TextField("10");
+	        minValiaika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+	        minValiaika.setPrefWidth(150);
+	        
+	        maxValiaikaLabel = new Label("Saapumisien enimmäisväliaika: ");
+	        maxValiaikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+	        maxValiaika = new TextField("30");
+	        maxValiaika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+	        maxValiaika.setPrefWidth(150);
 	                	        
 	        tulosLabel = new Label("Kokonaisaika:");
 			tulosLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -200,14 +199,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        grid.add(aika, 1, 0);          // sarake, rivi
 	        grid.add(viiveLabel, 0, 1);      // sarake, rivi
 	        grid.add(viive, 1, 1);             // sarake, rivi
-	        grid.add(asiakkaatLabel, 0, 2);
-	        grid.add(asiakkaat, 1, 2);         // sarake, rivi
-	        grid.add(tulosLabel, 0, 3);      // sarake, rivi
-	        grid.add(tulos, 1, 3);
-	        grid.add(kaynnistaButton,0, 5);  // sarake, rivi
-	        grid.add(aiemmatAjotBtn, 1, 5);
-	        grid.add(nopeutaButton, 0, 4);   // sarake, rivi
-	        grid.add(hidastaButton, 1, 4); 
+	        grid.add(minValiaikaLabel, 0, 2);
+	        grid.add(minValiaika, 1, 2);         // sarake, rivi
+	        grid.add(maxValiaikaLabel, 0, 3);
+	        grid.add(maxValiaika, 1, 3); 
+	        grid.add(tulosLabel, 0, 4);      // sarake, rivi
+	        grid.add(tulos, 1, 4);
+	        grid.add(kaynnistaButton,0, 6);  // sarake, rivi
+	        grid.add(aiemmatAjotBtn, 1, 6);
+	        grid.add(nopeutaButton, 0, 5);   // sarake, rivi
+	        grid.add(hidastaButton, 1, 5); 
 	        
 	        portsari = new Visualisointi(400,40);
 	        narikka1 = new Visualisointi(400, 40);
@@ -289,14 +290,15 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	public double getAika(){
 		return Double.parseDouble(aika.getText());
 	}
-	
-	public int getAsiakkaat() {
-		//jos ei toimi, yritä laittaa se onClickin kohdalle
-		
-			return Integer.parseInt(asiakkaat.getText());
-		
+	@Override
+	public int getMinValiaika() {
+		return Integer.parseInt(minValiaika.getText());		
 	}
 
+	public int getMaxValiaika() {
+		return Integer.parseInt(minValiaika.getText());
+	}
+	
 	@Override
 	public long getViive(){
 		return Long.parseLong(viive.getText());
@@ -369,7 +371,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		tulostaulukko.setVisible(true);
 		
 		double simulointiaika = Double.parseDouble(aika.getText());
-		int asiakasMaara = Integer.parseInt(asiakkaat.getText());
+		int asiakasMaara = Integer.parseInt(minValiaika.getText());
 		double aikaViive = Double.parseDouble(viive.getText());
 		
 		try {

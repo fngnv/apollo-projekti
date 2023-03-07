@@ -1,4 +1,4 @@
-package view;
+package application;
 
 public class Main { // Simulaattorin käynnistyspääohjelma
 	
