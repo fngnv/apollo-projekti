@@ -15,7 +15,7 @@ public class Taulukko {
 	}
 
 	// Yhdistä tietokantaan
-	public void yhdistaTietokantaan() throws SQLException {
+	private void yhdistaTietokantaan() throws SQLException {
 	    String url = "jdbc:mariadb://localhost:3306/tulokset";
 	    String kayttaja = "olso";
 	    String salasana = "olso";
@@ -23,7 +23,7 @@ public class Taulukko {
 	}
 
 	// Luo taulukko
-	public JTable luoTaulukko() throws SQLException {
+	private JTable luoTaulukko() throws SQLException {
 	    Statement stmt = conn.createStatement();
 	    ResultSet rs = stmt.executeQuery("SELECT * FROM simulaatiotulokset ORDER BY id DESC");
 
@@ -46,7 +46,7 @@ public class Taulukko {
 	}
 
 	// Luo taulukon mallin ResultSet-oliosta
-	public static DefaultTableModel luoTaulukkoModeli(ResultSet rs) throws SQLException {
+	private static DefaultTableModel luoTaulukkoModeli(ResultSet rs) throws SQLException {
 	    java.sql.ResultSetMetaData metaData = rs.getMetaData();
 
 	    // Sarakkeiden nimet
@@ -69,7 +69,7 @@ public class Taulukko {
 	}
 
 	// Hae taulukko
-	public JTable getTaulukko() throws SQLException {
+	private JTable getTaulukko() throws SQLException {
 	    yhdistaTietokantaan();
 	    return luoTaulukko();
 	}
