@@ -5,15 +5,40 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
 
+/**
+*
+* @author Silja Mattila
+*/
+
+/**
+ * Luokka Taulukko sisältää metodit taulukon mallin luomiseksi, taulukon hakemiseksi tietokannasta sekä taulukon näyttämiseksi käyttöliittymässä.
+*/
+
 public class Taulukko {
 
+	/**
+	 * Yhteyden käsittelyyn käytettävä tietokantayhteys.
+	 */
 	private Connection conn;
+
+	/**
+	 * Taulukko, joka esittää tietokannasta haettuja tietoja.
+	 */
 	private JTable table;
 
+	/**
+	 * Taulukko-luokan konstruktori.
+	*/
+	
 	public Taulukko() {
 	    super();
 	}
 
+	/**
+	 * Yhdistää tietokantaan.
+	 * @throws SQLException, jos tietokantavirhe
+	*/
+	
 	// Yhdistä tietokantaan
 	private void yhdistaTietokantaan() throws SQLException {
 	    String url = "jdbc:mariadb://localhost:3306/tulokset";
@@ -22,6 +47,12 @@ public class Taulukko {
 	    conn = DriverManager.getConnection(url, kayttaja, salasana);
 	}
 
+	/**
+	 * Luo taulukon.
+	 * @return luotu JTable-objekti
+	 * @throws SQLException, jos tietokantavirhe
+	*/
+	
 	// Luo taulukko
 	private JTable luoTaulukko() throws SQLException {
 	    Statement stmt = conn.createStatement();
@@ -47,6 +78,13 @@ public class Taulukko {
 	    return table;
 	}
 
+	/**
+	 * Luo taulukon mallin ResultSet-oliosta.
+	 * @param rs ResultSet-olio, josta taulukko luodaan.
+	 * @return palauttaa DefaultTableModel-olion, joka sisältää taulukon mallin tiedot.
+	 * @throws SQLException, jos taulukon luominen ei onnistu.
+	*/
+	
 	// Luo taulukon mallin ResultSet-oliosta
 	private static DefaultTableModel luoTaulukkoModeli(ResultSet rs) throws SQLException {
 	    java.sql.ResultSetMetaData metaData = rs.getMetaData();
@@ -70,12 +108,23 @@ public class Taulukko {
 	    return taulukkoModeli;
 	}
 
+	/**
+	 * Hakee taulukon ja palauttaa sen.
+	 * @return palauttaa JTable-olion, joka sisältää haetun taulukon tiedot.
+	 * @throws SQLException, jos taulukon hakeminen ei onnistu.
+	*/
+	
 	// Hae taulukko
 	private JTable getTaulukko() throws SQLException {
 	    yhdistaTietokantaan();
 	    return luoTaulukko();
 	}
 
+	/**
+	 * Näyttää taulukon JFrame-ikkunassa.
+	 * @throws SQLException, jos taulukon näyttäminen ei onnistu.
+	*/
+	
 	// Näytä taulukko
 	public void naytaTaulukko() throws SQLException {
 	    JTable taulukko = getTaulukko();

@@ -12,17 +12,55 @@ import simu.model.Asiakas;
 import simu.model.Palvelupiste;
 import simu.model.TapahtumanTyyppi;
 
-class PalvelupisteTest {
+/**
+*
+* @author Vera Finogenova, Silja Mattila
+*/
 
+/**
+ * PalvelupisteTest-luokka testaa Palvelupiste-luokan toiminnallisuutta.
+*/
+class PalvelupisteTest {
+	
+	/**
+	 * Yksityinen muuttuja, joka sisältää Palvelupiste-olion, jota käytetään palvelupisteen hallintaan.
+	*/
 	private Palvelupiste palvelupiste;
+	
+	/**Y
+	 * ksityinen muuttuja, joka sisältää Normal-olion, joka generoi normaalijakautuneita satunnaislukuja.
+	*/
 	private Normal generator;
+	
+	/**
+	 * Yksityinen muuttuja, joka sisältää Tapahtumalista-olion, joka hallitsee tapahtumien ajoitusta.
+	*/
 	private Tapahtumalista tapahtumalista;
+	
+	/**Y
+	 * ksityinen muuttuja sisältää TapahtumanTyyppi-olion, joka määrittää tapahtuman tyypin.
+	*/
 	private TapahtumanTyyppi tyyppi;
+	
+	/**
+	 * Yksityiset muuttujat, jotka sisältävat Asiakas-oliot, joita käytetään testauksessa.
+	*/
 	private Asiakas asiakas1;
 	private Asiakas asiakas2;
 	
+	/**
+	 * Tarkkuus, jolla vertailu suoritetaan.
+	*/
 	private final double DELTA = 0.001;
 	
+	/**
+	 * Asettaa alustustilan jokaiselle testille ennen sen suorittamista.
+	 * Luo Normal-olion generoimaan normaalijakautuneita satunnaislukuja,
+	 * Tapahtumalista-olion hallitsemaan tapahtumien ajoitusta,
+	 * Palvelupiste-olion, joka käyttää generoitua Normal-oliota ja Tapahtumalista-oliota,
+	 * asettaa Trace-tason INFO-tasolle.
+	 * Luo myös Asiakas1- ja Asiakas2-oliot testejä varten.
+	*/
 	@BeforeEach
 	public void setUp() {
 		generator = new Normal(2, 1);
@@ -33,7 +71,11 @@ class PalvelupisteTest {
 		asiakas1 = new Asiakas();
 		asiakas2 = new Asiakas();
 	}
-	    
+	   
+	/**
+	 * Testaa, lasketaanko jononpituus oikein.
+	 * @throws Exception, jos testi epäonnistuu
+	*/
     @Test
     @DisplayName("Lasketaanko jononpituus oikein")
     public void testGetJononPituus() {
@@ -46,6 +88,10 @@ class PalvelupisteTest {
 	    }
     }
 
+    /**
+     * Testaa, lasketaanko palveluaika oikein.
+     * @throws Exception, jos testi epäonnistuu
+    */
     @Test
     @DisplayName("Lasketaanko service time oikein")
     public void testGetServiceTime() {
@@ -64,6 +110,9 @@ class PalvelupisteTest {
 	    }
     }
 	
+    /**
+	 * Testaa, lasketaanko response time oikein.
+	*/
 	@Test
 	@DisplayName("Lasketaanko response time oikein")
 	public void testGetResponseTime() {
@@ -76,6 +125,9 @@ class PalvelupisteTest {
 	    assertEquals(expectedResponseTime, palvelupiste.getResponseTime(), DELTA, "Response time laskettu väärin");
 	}
 
+	/**
+	 * Testaa, lasketaanko odotusaika oikein.
+	*/
 	@Test
 	@DisplayName("Lasketaanko waiting time oikein")
 	public void testGetWaitingTime() {

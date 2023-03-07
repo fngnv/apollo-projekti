@@ -9,9 +9,25 @@ import org.junit.Assert;
 
 import simu.model.Asiakas;
 
+/**
+*
+* @author Vera Finogenova, Silja Mattila
+*/
+
+/**
+ * Testiluokka Asiakas-luokan toiminnallisuuksien testaamiseen.
+*/
 class AsiakasTest {
+	
+	/**
+	 * Tarkkuus, jolla vertailu suoritetaan.
+	*/
 	private final double DELTA = 0.001;
 	
+	/**
+	 * Testi gettereiden ja settereiden toiminnalle.
+	 * @throws Exception, jos testi epäonnistuu
+	*/
 	@Test
 	@DisplayName("Toimiiko getterit ja setterit oikein")
     public void testSettersAndGetters() {
@@ -43,6 +59,10 @@ class AsiakasTest {
         }
     }
 
+	/**
+	 * Testi jonossa vietetyn ajan laskennalle.
+	 * @throws Exception, jos testi epäonnistuu
+	*/
     @Test
     @DisplayName("Onko jonossa vietetty aika laskettu oikein")
     public void testJonossaVietettyAika() {
@@ -57,6 +77,10 @@ class AsiakasTest {
         }
     }
 
+    /**
+     * Testi palvelupisteessä vietetyn ajan laskennalle.
+     * @throws Exception, jos testi epäonnistuu
+    */
     @Test
     @DisplayName("Onko palvelupisteessä vietetty aika laskettu oikein")
     public void testPalvelupisteessaVietettyAika() {
@@ -70,6 +94,10 @@ class AsiakasTest {
         }
     }
 
+    /**
+     * Testaa, ovatko asiakkaiden Id:t oikeassa järjestyksessä.
+     * @throws Exception, jos testi epäonnistuu
+    */
     @Test
     @DisplayName("Ovatko asiakkaiden Id:t oikeassa järjestyksessä")
     public void testGetId() {
@@ -83,6 +111,10 @@ class AsiakasTest {
             }
             }
     
+    /**
+     * Testaa, onko asiakkaiden kokonaismäärä laskettu oikein.
+     * @throws Exception, jos testi epäonnistuu
+    */
     @Test
     @DisplayName("Onko asiakkaiden kokonaismäärä laskettu oikein")
     public void testGetKokonaismaara() {

@@ -2,13 +2,25 @@ package simu.model;
 
 import java.sql.*;
 
-import javafx.scene.control.TextField;
+/**
+*
+* @author Silja Mattila
+*/
 
+/**
+ * Tämä luokka muodostaa yhteyden tietokantaan, tallentaa simulaatiotulokset tietokantaan, hakee tulokset tietokannasta ja tulostaa ne konsoliin.
+ */
 
 public class Datantallennus implements IDatantallenusDAO{
 	
 	 private Connection conn;
 
+	 /**
+	  * Datantallennus-luokan konstruktori muodostaa yhteyden tietokantaan ja tallentaa sen conn-attribuuttiin.
+	  * Yhteyden tiedot ovat kovakoodattu metodiin, joten niitä voi muuttaa vain suoraan koodista.
+	  * @throws SQLException, jos yhteydenmuodostus tietokantaan epäonnistuu
+	 */
+	 
 	 public Datantallennus() {
 			final String URL = "jdbc:mariadb://localhost:3306/tulokset";
 			final String USERNAME = "olso";
@@ -23,10 +35,36 @@ public class Datantallennus implements IDatantallenusDAO{
 				e.printStackTrace();
 			}
 		}
-	    private void printSQLExceptions(String string, SQLException e) {
-		// TODO Auto-generated method stub
+	 
+	 	/**
+		 * Apumetodi, joka tulostaa tietokantavirheiden tiedot.
+		 * @param string virheen aiheuttanut metodi
+		 * @param e virhe
+		 */
+	 
+	    private void printSQLExceptions(String MethodName, SQLException e) {
+	    	System.err.println("Metodi: " + MethodName);
+			do {
+				System.err.println("Viesti: " + e.getMessage());
+				System.err.println("Virhekoodi: " + e.getErrorCode());
+				System.err.println("SQL-tilakoodi: " + e.getSQLState());
+			}while(e.getNextException() != null);
+	    }
 		
-	}
+	    /**
+		 * Tallentaa simulaatiotulokset tietokantaan.
+		 * @param simulointiaika simulaatioaika
+		 * @param valiaikaMin minimiaika kahden saapumisen välillä
+		 * @param valiaikaMax maksimiaika kahden saapumisen välillä
+		 * @param aikaViive viive ennen palvelua
+		 * @param pAsiakkaat palveltavien asiakkaiden määrä
+		 * @param aikojenKA asiakaspalveluaikojen keskiarvo
+		 * @param throughput palveluiden määrä yksikköä kohden aikayksikköä kohden
+		 * @param serviceTime palveluaikojen jakauman tilastot
+		 * @param responseTime palvelun vastausaikojen jakauman tilastot
+		 * @param jononpituus jonon pituuden jakauman tilastot
+		 * @throws SQLException, jos tietokantavirhe
+		 */
 
 	    public void saveSimulationResults(double simulointiaika, int valiaikaMin, int valiaikaMax, double aikaViive, int pAsiakkaat, double aikojenKA, double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) throws SQLException {
 	    	// Valmistellaan SQL-lauseke datan tallentamiseksi
@@ -50,12 +88,17 @@ public class Datantallennus implements IDatantallenusDAO{
 	        stmt.executeUpdate();
 	    }
 		
+	    /**
+	     * Tulostaa simulaatiotulokset.
+	     * @throws SQLException jos tietokantavirhe
+	    */
+	    
 		public void printSimulationResults() throws SQLException {
 			// Valmistellaan SQL-lauseke datan noutamiseksi
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = stmt.executeQuery("SELECT * FROM simulaatiotulokset");
 
-		 // Tulostetaan 
+		 // Tulostetaan taulukon otsikot
 		    System.out.printf("%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s\n",
 		            "ID", "simulointiaika", "valiaikaMin", "valiaikaMax", "aikaViive", "pAsiakkaat", "aikojenKA", "throughput", "serviceTime1", "serviceTime2", "serviceTime3", "serviceTime4", "serviceTime5", "serviceTime6", "serviceTime7",
 		            "responseTime1", "responseTime2", "responseTime3", "responseTime4", "responseTime5", "responseTime6", "responseTime7", "jononpituus1", "jononpituus2", "jononpituus3",
@@ -77,6 +120,11 @@ public class Datantallennus implements IDatantallenusDAO{
 		    stmt.close();
 		}
 
+		/**
+		 * Sulkee tietokantayhteyden.
+		 * @throws SQLException, jos tietokantayhteyden sulkemisessa tapahtuu virhe.
+		*/
+		
 	    public void close() throws SQLException {
 	        conn.close();
 	    }
