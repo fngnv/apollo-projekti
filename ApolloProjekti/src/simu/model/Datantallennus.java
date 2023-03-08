@@ -38,7 +38,7 @@ public class Datantallennus implements IDatantallenusDAO{
 	 
 	 	/**
 		 * Apumetodi, joka tulostaa tietokantavirheiden tiedot.
-		 * @param string virheen aiheuttanut metodi
+		 * @param MethodName virheen aiheuttanut metodi
 		 * @param e virhe
 		 */
 	 
@@ -70,7 +70,7 @@ public class Datantallennus implements IDatantallenusDAO{
 	    	// Valmistellaan SQL-lauseke datan tallentamiseksi
 	        PreparedStatement stmt = conn.prepareStatement("INSERT INTO simulaatiotulokset (simulointiaika, valiaikaMin, valiaikaMax, aikaViive, pAsiakkaat, aikojenKA, throughput, serviceTime1, serviceTime2, serviceTime3, serviceTime4, serviceTime5, serviceTime6, serviceTime7, responseTime1, responseTime2, responseTime3, responseTime4, responseTime5, responseTime6, responseTime7, jononpituus1, jononpituus2, jononpituus3, jononpituus4, jononpituus5, jononpituus6, jononpituus7) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-	     // Asetetaan parametrien arvot SQL-lausekkeeseen
+	        // Asetetaan parametrien arvot SQL-lausekkeeseen
 	        stmt.setDouble(1, simulointiaika);
 	        stmt.setInt(2, valiaikaMin);
 	        stmt.setInt(3, valiaikaMax);
@@ -84,7 +84,7 @@ public class Datantallennus implements IDatantallenusDAO{
 	            stmt.setDouble(22 + i, jononpituus[i]);
 	        }
 
-	     // Suoritetaan SQL-lauseke datan tallentamiseksi
+	        // Suoritetaan SQL-lauseke datan tallentamiseksi
 	        stmt.executeUpdate();
 	    }
 		
@@ -98,7 +98,7 @@ public class Datantallennus implements IDatantallenusDAO{
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = stmt.executeQuery("SELECT * FROM simulaatiotulokset");
 
-		 // Tulostetaan taulukon otsikot
+		    // Tulostetaan taulukon otsikot
 		    System.out.printf("%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s%-15s\n",
 		            "ID", "simulointiaika", "valiaikaMin", "valiaikaMax", "aikaViive", "pAsiakkaat", "aikojenKA", "throughput", "serviceTime1", "serviceTime2", "serviceTime3", "serviceTime4", "serviceTime5", "serviceTime6", "serviceTime7",
 		            "responseTime1", "responseTime2", "responseTime3", "responseTime4", "responseTime5", "responseTime6", "responseTime7", "jononpituus1", "jononpituus2", "jononpituus3",

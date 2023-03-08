@@ -1,13 +1,11 @@
 package simu.model;
 
 import java.util.LinkedList;
-
 import eduni.distributions.ContinuousGenerator;
 import simu.framework.Kello;
 import simu.framework.Tapahtuma;
 import simu.framework.Tapahtumalista;
 
-// TODO:
 // Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
 public class Palvelupiste {
 
@@ -72,7 +70,6 @@ public class Palvelupiste {
 
 
 	public int getJononPituus() {
-		// TODO Auto-generated method stub
 		return jono.size();
 	}
 	

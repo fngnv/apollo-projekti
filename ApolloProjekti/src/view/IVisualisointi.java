@@ -1,6 +1,5 @@
 package view;
 
-
 public interface IVisualisointi {
 
 	public void tyhjennaNaytto();
@@ -10,4 +9,3 @@ public interface IVisualisointi {
 	public void poistaAsiakas();
 		
 }
-

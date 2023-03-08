@@ -39,8 +39,6 @@ public class Kontrolleri implements IKontrolleri{   // UUSI
 		moottori.setViive((long)(moottori.getViive()*0.5));
 	}
 	
-	
-	
 	// Simulointitulosten välittämistä käyttöliittymään.
 	// Koska FX-ui:n päivitykset tulevat moottorisäikeestä, ne pitää ohjata JavaFX-säikeeseen:
 		

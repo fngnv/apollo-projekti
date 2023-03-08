@@ -2,8 +2,6 @@ package simu.model;
 
 import java.text.DecimalFormat;
 import java.util.Random;
-
-
 import controller.IKontrolleri;
 import eduni.distributions.Negexp;
 import eduni.distributions.Normal;
@@ -11,7 +9,6 @@ import simu.framework.Kello;
 import simu.framework.Moottori;
 import simu.framework.Saapumisprosessi;
 import simu.framework.Tapahtuma;
-
 
 public class OmaMoottori extends Moottori{
 	

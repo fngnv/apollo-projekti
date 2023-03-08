@@ -1,6 +1,5 @@
 package view;
 
-
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import controller.*;
@@ -34,8 +33,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
-
-
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	IDatantallenusDAO datantallennus = new Datantallennus();
 
@@ -43,42 +40,20 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	private IKontrolleri kontrolleri;
 
 	// Käyttöliittymäkomponentit:
-	private TextField aika;
-	private TextField viive;
-	private TextField minValiaika;
-	private TextField maxValiaika;
-	private Label tulos;
-	private Label aikaLabel;
-	private Label viiveLabel;
-	private Label tulosLabel;
-	private Label minValiaikaLabel;
-	private Label maxValiaikaLabel;
+	private TextField aika, viive, minValiaika, maxValiaika;
+	private Label tulos, aikaLabel, viiveLabel, tulosLabel, minValiaikaLabel, maxValiaikaLabel;
 	private GridPane tulokset;
 	private TableView<Tulokset> tulostaulukko;
-	private Label plkm = new Label();
-	private Label n1lkm = new Label();
-	private Label blkm = new Label();
-	private Label tlkm = new Label();
-	private Label klkm = new Label();
-	private Label ilkm = new Label();
-	private Label n2lkm = new Label();
+	private Label plkm = new Label(), n1lkm = new Label(), blkm = new Label(),
+				tlkm = new Label(), klkm = new Label(), ilkm = new Label(), n2lkm = new Label();
 	
 	private Label[] lkmLabelit = new Label[] {
 			plkm, n1lkm, blkm, tlkm, klkm, ilkm, n2lkm
 	};
 	
-	private Button kaynnistaButton;
-	private Button aiemmatAjotBtn;
-	private Button hidastaButton;
-	private Button nopeutaButton;
+	private Button kaynnistaButton, aiemmatAjotBtn, hidastaButton, nopeutaButton;
 
-	private IVisualisointi portsari;
-	private IVisualisointi narikka1;
-	private IVisualisointi baaritiski;
-	private IVisualisointi tanssilattia;
-	private IVisualisointi karaoke;
-	private IVisualisointi istuminen;
-	private IVisualisointi narikka2;
+	private IVisualisointi portsari, narikka1, baaritiski, tanssilattia, karaoke, istuminen, narikka2;
 	
 	private IVisualisointi[] visualisoinnit;
 
@@ -135,7 +110,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 						taulukko.naytaTaulukko();
 						
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 			    }
@@ -276,8 +250,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        primaryStage.setHeight(screenBounds.getHeight());
 	        primaryStage.show();
 
-
-
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -378,19 +350,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		try {
 			datantallennus.saveSimulationResults(simulointiaika, valiaikaMin, valiaikaMax, aikaViive, pAsiakkaat, aikojenKA, throughput, serviceTime, responseTime, jononpituus);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			datantallennus.printSimulationResults();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			datantallennus.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -428,7 +397,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		}
 
 		public static void annetutArvot() {
-			// TODO Auto-generated method stub
+			// TODO Onko unohtunut täyttää?
 			
 		}
 
