@@ -33,13 +33,17 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
+/**
+ * Luokka rakentaa käyttöliittymän ja käsittele käyttäjän toiminnatS
+ * 
+ * @author 
+ * Täydentänyt Vera Finogenova ja Silja Mattila
+ */
 public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	IDatantallenusDAO datantallennus = new Datantallennus();
 
-	//Kontrollerin esittely (tarvitaan käyttöliittymässä)
 	private IKontrolleri kontrolleri;
 
-	// Käyttöliittymäkomponentit:
 	private TextField aika, viive, minValiaika, maxValiaika;
 	private Label tulos, aikaLabel, viiveLabel, tulosLabel, minValiaikaLabel, maxValiaikaLabel;
 	private GridPane tulokset;
@@ -68,7 +72,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 
 	@Override
 	public void start(Stage primaryStage) {
-		// Käyttöliittymän rakentaminen
 		try {
 			
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -117,7 +120,7 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 
 			aikaLabel = new Label("Simulointiaika: ");
 			aikaLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-	        aika = new TextField("25200"); //Oletus aukioloaika(25200 sek = 7 t). Käyttäjä saa vaihtaa
+	        aika = new TextField("25200"); //Oletus aukioloaika(25200 sek = 7 t). Käyttäjä voi vaihtaa
 	        aika.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        aika.setPrefWidth(150);
 
@@ -157,8 +160,8 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        tulokset.setHgap(5);
 	        
 	        HBox hBox = new HBox();
-	        hBox.setPadding(new Insets(15, 12, 15, 12)); // marginaalit ylä, oikea, ala, vasen
-	        hBox.setSpacing(10);   // noodien välimatka 10 pikseliä
+	        hBox.setPadding(new Insets(15, 12, 15, 12)); 
+	        hBox.setSpacing(10); 
 	        
 	        VBox oikeapuolinenBox = new VBox();
 	        oikeapuolinenBox.setPadding(new Insets(15, 12, 15, 12));
@@ -169,19 +172,19 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 	        grid.setVgap(10);
 	        grid.setHgap(5);
 
-	        grid.add(aikaLabel, 0, 0);   // sarake, rivi
-	        grid.add(aika, 1, 0);          // sarake, rivi
-	        grid.add(viiveLabel, 0, 1);      // sarake, rivi
-	        grid.add(viive, 1, 1);             // sarake, rivi
+	        grid.add(aikaLabel, 0, 0);  
+	        grid.add(aika, 1, 0);      
+	        grid.add(viiveLabel, 0, 1);   
+	        grid.add(viive, 1, 1);    
 	        grid.add(minValiaikaLabel, 0, 2);
-	        grid.add(minValiaika, 1, 2);         // sarake, rivi
+	        grid.add(minValiaika, 1, 2); 
 	        grid.add(maxValiaikaLabel, 0, 3);
 	        grid.add(maxValiaika, 1, 3); 
-	        grid.add(tulosLabel, 0, 4);      // sarake, rivi
+	        grid.add(tulosLabel, 0, 4);
 	        grid.add(tulos, 1, 4);
-	        grid.add(kaynnistaButton,0, 6);  // sarake, rivi
+	        grid.add(kaynnistaButton,0, 6);
 	        grid.add(aiemmatAjotBtn, 1, 6);
-	        grid.add(nopeutaButton, 0, 5);   // sarake, rivi
+	        grid.add(nopeutaButton, 0, 5); 
 	        grid.add(hidastaButton, 1, 5); 
 	        
 	        portsari = new Visualisointi(400,40);
@@ -255,18 +258,32 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		}
 	}
 
-
-	//Käyttöliittymän rajapintametodit (kutsutaan kontrollerista)
-
+	/**
+	 * Palauttaa simulointiajan, jonka käyttäjä syöttää tekstikenttään
+	 * 
+	 * @return simulointiaika
+	 */
 	@Override
 	public double getAika(){
 		return Double.parseDouble(aika.getText());
 	}
+	
+	/**
+	 * Palauttaa Negexp generaattorin tarvitseman seedin (käyttöliittymässä nimellä saapumisien vähimmäisväliaika), jonka käyttäjä syöttää tekstikenttään 
+	 * 
+	 * @return minimiväliaika käyttäjän näkökulmasta, seed Negexp generaattoria varten ohjelman näkökulmasta
+	 */
 	@Override
 	public int getMinValiaika() {
 		return Integer.parseInt(minValiaika.getText());		
 	}
 
+	/**
+	 * Palauttaa Negexp generaattorin tarvitseman mean-arvon (Käyttöliittymässä nimellä saapumisien enimmäisväliaika), jonka käyttäjä syöttää tekstikenttään
+	 * 
+	 * @return maksimiväliaika käyttäjän näkökulmasta, Negexp generaattorin mean ohjelman näkökulmasta
+	 */
+	@Override
 	public int getMaxValiaika() {
 		return Integer.parseInt(minValiaika.getText());
 	}
@@ -282,8 +299,16 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		 this.tulos.setText(formatter.format(aika));
 	}
 
-	//Metodi saa simuloinnin tulokset ja asettaa ne käyttöliittymään: osan grid panen sisään ja 
-	//palvelupistekohtaiset tulokset taulukkoon
+	/**
+	 * Metodi saa simuloinnin tulokset ja asettaa ne käyttöliittymään: osan grid panen sisään ja palvelupistekohtaiset tulokset taulukkoon (TableWiew)
+	 * 
+	 * @param pAsiakkaat simulionnin aikana palvellut asiakkaat
+	 * @param aikojenKA läpimenoaikojen  keskiarvo
+	 * @param throughput koko järjestelmän suoritusteho
+	 * @param serviceTime kaikkien palvelupisteiden service time tulokset
+	 * @param responseTime kaikkien palvelupisteiden response time tulokset
+	 * @param jononpituus kaikkien palvelupisteiden keskimääräiset jononpituudet
+	 */
 	@Override
 	public void setTulokset(int pAsiakkaat, double aikojenKA, double throughput, double[] serviceTime, double[] responseTime, double[] jononpituus) {
 		DecimalFormat f = new DecimalFormat("#####.##");
@@ -296,10 +321,6 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		
 		for(int i = 0; i < palvelupisteet.length; i++) {
 			data.add(new Tulokset(palvelupisteet[i], f.format(serviceTime[i]), f.format(responseTime[i]), f.format(jononpituus[i])));
-		}
-		
-		for(Tulokset tulos : data) {
-			System.out.println(tulos);
 		}
 		
 		Label tuloksetLabel = new Label("Tulokset");
@@ -364,25 +385,37 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 		}
 	}
 
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+	/**
+	 * Palauttaa canvakset, joihin piirretään asiakkaita, taulukkona
+	 * 
+	 * @return kaikki canvakset taulukkona
+	 */
 	@Override
 	public IVisualisointi[] getVisualisoinnit() {
 		 return visualisoinnit;
 	}
 	
-	
-	// JavaFX-sovelluksen (käyttöliittymän) käynnistäminen
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-	
-	//
+	/**
+	 * Laittaa parametrina saadun labelin kohdalle sen viereiseen jonon ajantasainen jononpituus
+	 * 
+	 * @param labelNro label johon tulostetaan pituus
+	 * @param pituus ajantasainen pituus
+	 */
 	@Override
 	public void tulostaJononpituus(int labelNro, int pituus) {
 		lkmLabelit[labelNro].setText(Integer.toString(pituus));
 	}
 
-	//Dataa jonka käytetään taulukossa
+	/**
+	 * Luokka sisältää dataa jonka käytetään TableWiew:ssä ja metodeja joita TableWiew vaatii datan käsittelyyn
+	 * 
+	 * @author Vera Finogenova
+	 *
+	 */
 	public static class Tulokset {
 		private SimpleStringProperty palveluPiste;
 		private SimpleStringProperty servTime;
@@ -396,39 +429,74 @@ public class SimulaattorinGUI extends Application implements ISimulaattorinUI{
 			jononpituus = new SimpleStringProperty(jPituus);
 		}
 
-		public static void annetutArvot() {
-			// TODO Onko unohtunut täyttää?
-			
-		}
-
+		/**
+		 * Palauttaa palvelupisteen nimen
+		 * 
+		 * @return palvelupisteen nimi
+		 */
 		public String getPalveluPiste() {
 			return palveluPiste.get();
 		}
 
+		/**
+		 * Asettaa nimi palvelupisteelle
+		 * 
+		 * @param piste palvelupisteen nimi
+		 */
 		public void setPalveluPiste(String piste) {
 			this.palveluPiste.set(piste);
 		}
 
+		/**
+		 * Palauttaa palvelupisteen service time 
+		 * 
+		 * @return palvelupisteen service time 
+		 */
 		public String getServTime() {
 			return servTime.get();
 		}
 
+		/**
+		 * Asettaa palvelupisteen service time
+		 * 
+		 * @param servTime service time
+		 */
 		public void setServTime(double servTime) {
 			this.servTime.set(Double.toString(servTime));
 		}
 
+		/**
+		 * Palauttaa palvelupisteen response time
+		 * 
+		 * @return palvelupisteen response time
+		 */
 		public String getRespTime() {
 			return respTime.get();
 		}
 
+		/**
+		 * Asettaa palvelupisteen responce time
+		 * 
+		 * @param respTime responce time
+		 */
 		public void setRespTime(double respTime) {
 			this.respTime.set(Double.toString(respTime));;
 		}
 
+		/**
+		 * Palaauttaa palvelupisteen kesk. jononpituus
+		 * 
+		 * @return palvelupisteen jononpituus
+		 */
 		public String getJononpituus() {
 			return jononpituus.get();
 		}
 
+		/**
+		 * Asettaa palvelupisteen kesk.jononpituus
+		 * 
+		 * @param jononpituus palvelupisteen jononpituus
+		 */
 		public void setJononpituus(double jononpituus) {
 			this.jononpituus.set(Double.toString(jononpituus));;
 		}

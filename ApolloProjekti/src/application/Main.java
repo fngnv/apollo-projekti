@@ -7,5 +7,4 @@ public class Main { // Simulaattorin käynnistyspääohjelma
 		view.SimulaattorinGUI.main(args);
 		
 	}
-
 }

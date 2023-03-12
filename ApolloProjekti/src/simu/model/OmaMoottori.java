@@ -10,13 +10,16 @@ import simu.framework.Moottori;
 import simu.framework.Saapumisprosessi;
 import simu.framework.Tapahtuma;
 
+/**
+ * Luokka pitää simulaatiota toiminnassa
+ * 
+ * @author 
+ * Täydenntänyt Vera Finogenova
+ */
 public class OmaMoottori extends Moottori{
 	
 	private Saapumisprosessi saapumisprosessi;
 	private Random random = new Random();
-	
-	//Tulosten laskemiseen tarvittavat muuttujat
-	
 	
 	public OmaMoottori(IKontrolleri kontrolleri){ // UUSI
 
@@ -38,12 +41,12 @@ public class OmaMoottori extends Moottori{
 	
 	@Override
 	protected void alustukset() {
-		saapumisprosessi.generoiSeuraava(); // Ensimmäinen saapuminen järjestelmään
+		saapumisprosessi.generoiSeuraava(); 
 	}
 	
 	
 	@Override
-	protected void suoritaTapahtuma(Tapahtuma t){  // B-vaiheen tapahtumat
+	protected void suoritaTapahtuma(Tapahtuma t){ 
 
 		Asiakas a;
 		switch (t.getTyyppi()){
@@ -82,16 +85,6 @@ public class OmaMoottori extends Moottori{
 			palvelupisteet[seuraavaDep3].lisaaJonoon(a);
 			kontrolleri.visualisoiAsiakas(seuraavaDep3);
 			kontrolleri.naytaJononpituus(seuraavaDep3, palvelupisteet[seuraavaDep3].getJononPituus());
-			/*
-			 * int valinta = random.nextInt(10 - 1) + 1;
-			 * 
-			 * if(valinta == 3) { palvelupisteet[3].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(3); } else if(valinta == 4) {
-			 * palvelupisteet[4].lisaaJonoon(a); kontrolleri.visualisoiAsiakas(4); } else
-			 * if(valinta == 5) { palvelupisteet[5].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(5); } else { palvelupisteet[6].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(6); }
-			 */
 			break;
 		//tanssilattia, indeksi 3
 		case DEP4:
@@ -102,14 +95,6 @@ public class OmaMoottori extends Moottori{
 			palvelupisteet[seuraavaDep4].lisaaJonoon(a);
 			kontrolleri.visualisoiAsiakas(seuraavaDep4);
 			kontrolleri.naytaJononpituus(seuraavaDep4, palvelupisteet[seuraavaDep4].getJononPituus());
-			/*
-			 * if(valinta == 2) { palvelupisteet[2].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(2); } else if(valinta == 4) {
-			 * palvelupisteet[4].lisaaJonoon(a); kontrolleri.visualisoiAsiakas(4); } else
-			 * if(valinta == 5) { palvelupisteet[5].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(5); } else { palvelupisteet[6].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(6); }
-			 */
 			break;
 		//karaoke, indeksi 4
 		case DEP5:
@@ -120,14 +105,6 @@ public class OmaMoottori extends Moottori{
 			palvelupisteet[seuraavaDep5].lisaaJonoon(a);
 			kontrolleri.visualisoiAsiakas(seuraavaDep5);
 			kontrolleri.naytaJononpituus(seuraavaDep5, palvelupisteet[seuraavaDep5].getJononPituus());
-			/*
-			 * if(valinta == 2) { palvelupisteet[2].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(2); } else if(valinta == 3) {
-			 * palvelupisteet[3].lisaaJonoon(a); kontrolleri.visualisoiAsiakas(3); } else
-			 * if(valinta == 5) { palvelupisteet[5].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(5); } else { palvelupisteet[6].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(6); }
-			 */
 			break;
 		//istuminen, indeksi 5
 		case DEP6:
@@ -138,14 +115,6 @@ public class OmaMoottori extends Moottori{
 			palvelupisteet[seuraavaDep6].lisaaJonoon(a);
 			kontrolleri.visualisoiAsiakas(seuraavaDep6);
 			kontrolleri.naytaJononpituus(seuraavaDep6, palvelupisteet[seuraavaDep6].getJononPituus());
-			/*
-			 * if(valinta == 2) { palvelupisteet[2].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(2); } else if(valinta == 3) {
-			 * palvelupisteet[3].lisaaJonoon(a); kontrolleri.visualisoiAsiakas(3); } else
-			 * if(valinta == 4) { palvelupisteet[4].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(4); } else { palvelupisteet[6].lisaaJonoon(a);
-			 * kontrolleri.visualisoiAsiakas(6); }
-			 */
 			break;
 		//poistuminen, indeksi 6
 		case DEP7:
@@ -158,8 +127,13 @@ public class OmaMoottori extends Moottori{
 		}	
 	}
 	
-	//Metodi sattunaisesti valitsee mihin asiakas menee seuraavaksi, silloin kun on useita vaihtoehtoa
-	//Palauttaa seuraavan palvelupisteen numero
+	/**
+	 * Metodi sattunaisesti valitsee mihin asiakas menee seuraavaksi, silloin kun on useita vaihtoehtoa ja palauttaa seuraavan palvelupisteen numeron.
+	 * Asiakas ei voi valita sen palvelupisteen, jossa hän on asken käynyt, vaan hänen on pakko valita joku toinen
+	 * 
+	 * @param nykSijainti palvelupiste, jolla asikakas on silloin kun sen on tehtävä päätös
+	 * @return seuraava palvelupiste
+	 */
 	public int generoiValinta(int nykSijainti) {
 		int valinta;
 		
@@ -177,7 +151,7 @@ public class OmaMoottori extends Moottori{
 	
 	@Override
 	protected void tulokset() {
-		//Muuttujat joita tarvitaan suureiden laskemiseen
+		//Muuttujat joita tarvitaan tuloksien laskemiseen
 		double aukioloaika = Kello.getInstance().getAika();
 		int pAsiakkaat = Asiakas.getAsiakasLkm();
 		double lapimenoaikojenKA = Asiakas.getKeskiarvo();
@@ -204,9 +178,9 @@ public class OmaMoottori extends Moottori{
 			keskJononpituusTulokset[i] = palvelupisteet[i].getWaitingTime() / aukioloaika;
 		}
 		
-		// UUTTA graafista
 		kontrolleri.naytaLoppuaika(Kello.getInstance().getAika());
-		//Seuraava metodi lähettää simulaation tulokset kontrollerille
+		
+		//Seuraava rivi lähettää simulaation tulokset kontrollerille
 		kontrolleri.naytaTulokset(pAsiakkaat, lapimenoaikojenKA, throughput, serviceTimeTulokset, responseTimeTulokset, keskJononpituusTulokset);
 	}
 

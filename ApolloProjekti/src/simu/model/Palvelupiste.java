@@ -6,7 +6,13 @@ import simu.framework.Kello;
 import simu.framework.Tapahtuma;
 import simu.framework.Tapahtumalista;
 
-// Palvelupistekohtaiset toiminnallisuudet, laskutoimitukset (+ tarvittavat muuttujat) ja raportointi koodattava
+/**
+ * Luokka kuvaa palvelupiste-olioiden ominaisuudet ja toiminnot
+ * 
+ * @author
+ * Täydentänyt Vera Finogenova
+ *
+ */
 public class Palvelupiste {
 
 	private LinkedList<Asiakas> jono = new LinkedList<Asiakas>(); // Tietorakennetoteutus
@@ -15,15 +21,26 @@ public class Palvelupiste {
 	private Tapahtumalista tapahtumalista;
 	private TapahtumanTyyppi skeduloitavanTapahtumanTyyppi; 
 	
-	//Tuloksien laskemiseen tarvittavat muuttujat
+	/**
+	 * Palvelupisteen service time -arvo
+	 */
 	private double serviceTime;
+	/**
+	 * Palvelupisteen busy time arvo
+	 */
 	private double busyTime = 0;
-	private static int palveltujenMaara = 0; //palveltujen määrä on sama kuin completed count
+	/**
+	 * Palvelupistekohtainen palveltujen asiakkaiden määrä, completed count
+	 */
+	private static int palveltujenMaara = 0;
+	/**
+	 * Palvelupisteen response time -arvo
+	 */
 	private double responseTime;
+	/**
+	 * Palvelupisteen waiting time -arvo
+	 */
 	private double waitingTime = 0;
-	
-	
-	//JonoStartegia strategia; //optio: asiakkaiden järjestys
 	
 	private boolean varattu = false; 
 
@@ -36,13 +53,13 @@ public class Palvelupiste {
 	}
 
 
-	public void lisaaJonoon(Asiakas a){   // Jonon 1. asiakas aina palvelussa
+	public void lisaaJonoon(Asiakas a){
 		a.setJonottamisenAloitus(Kello.getInstance().getAika());
 		jono.add(a);
 		
 	}
 
-	public Asiakas otaJonosta(){  // Poistetaan palvelussa ollut
+	public Asiakas otaJonosta(){
 		varattu = false;
 		jono.peek().setPalvelunLopetus(Kello.getInstance().getAika());
 		busyTime += jono.peek().palvelupisteessaVietettyAika();
@@ -51,7 +68,7 @@ public class Palvelupiste {
 		return jono.poll();
 	}
 
-	public void aloitaPalvelu(){  //Aloitetaan uusi palvelu, asiakas on jonossa palvelun aikana
+	public void aloitaPalvelu(){
 		varattu = true;
 		jono.peek().setPalvelunAloitus(Kello.getInstance().getAika());
 		double palveluaika = generator.sample();
@@ -73,13 +90,21 @@ public class Palvelupiste {
 		return jono.size();
 	}
 	
-	//Laskee palvelupisteen keskimääräisen palveluajan ja palauttaa sen. Jonottamiset eivät ole laskettu mukaan
+	/**
+	 * Laskee palvelupisteen keskimääräisen palveluajan ja palauttaa sen. Jonottamiset eivät ole laskettu mukaan
+	 * 
+	 * @return palvelupisteen keskimääräinen palveluaika
+	 */
 	public double getServiceTime() {
 		serviceTime = busyTime / palveltujenMaara;
 		return serviceTime;
 	}
 	
-	//Laskee palvelupisteen keskimääräisen läpimenoajan ja palauttaa sen. Jonottamiset ovat laskettu mukaan
+	/**
+	 * Laskee palvelupisteen keskimääräisen läpimenoajan ja palauttaa sen. Jonottamiset ovat laskettu mukaan
+	 * 
+	 * @return palvelupisteen kieskimääräinen läpimenoaika
+	 */
 	public double getResponseTime() {
 		responseTime = waitingTime / palveltujenMaara;
 		if (responseTime >= 0) {
@@ -89,12 +114,20 @@ public class Palvelupiste {
 	    }
 	}
 	
-	//Palauttaa kaikkien palvelupisteessä oleskeluaikojen summan (mm. jonottaminen)
+	/**
+	 * Palauttaa palvelupisteessä käyneiden asiakkaiden oleskeluaikojen summan
+	 * 
+	 * @return palvelupisteessä oleskeluaikojen summa
+	 */
 	public double getWaitingTime() {
 		return waitingTime;
 	}
 
-
+	/**
+	 * Palauttaa palvelupisteessä käyneiden palveltujen asiakkaiden määrän
+	 * 
+	 * @return palvelupistekohtainen palveltujen asiakkaiden määrä
+	 */
 	public int getPalveltujenMaara() {
 		return palveltujenMaara;
 	}
